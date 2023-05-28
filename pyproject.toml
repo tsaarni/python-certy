@@ -1,0 +1,16 @@
+[build-system]
+requires = ["flit_core >=3.2,<4", "python >=3.7"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "certy"
+authors = [{name = "Tero Saarni", email = "tero.saarni@gmail.com"}]
+license = {file = "LICENSE"}
+classifiers = ["License :: OSI Approved :: Apache Software License"]
+dynamic = ["version", "description"]
+dependencies = [
+    "cryptography"
+]
+
+[project.urls]
+Home = "https://github.com/tsaarni/python-certy"

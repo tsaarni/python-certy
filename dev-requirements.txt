@@ -1,0 +1,6 @@
+black
+cryptography
+flake8
+pytest
+pytest-cov
+pytest-pythonpath
