@@ -11,6 +11,9 @@ dynamic = ["version", "description"]
 dependencies = [
     "cryptography"
 ]
+requires-python = ">=3.9"
+keywords = ["testing", "certificates", "x509", "pki"]
 
 [project.urls]
-Home = "https://github.com/tsaarni/python-certy"
+Documentation = "https://tsaarni.github.io/python-certy/"
+Source = "https://github.com/tsaarni/python-certy"

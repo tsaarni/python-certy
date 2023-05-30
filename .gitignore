@@ -3,4 +3,5 @@
 __pycache__/
 htmlcov/
 .coverage
+coverage.xml
 _build/

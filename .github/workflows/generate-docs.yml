@@ -1,0 +1,36 @@
+name: generate-docs
+
+on:
+  push:
+    branches:
+      - main
+
+# Required by github-pages-deploy-action to push pages to the repository
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - name: Install dependencies
+        run: |
+          python3 -m venv .venv
+          source .venv/bin/activate
+          python3 -m pip install -r dev-requirements.txt --upgrade pip
+      - name: Sphinx build
+        run: |
+          source .venv/bin/activate
+          cd docs
+          make html
+      - name: Copy built docs to publish folder
+        run: |
+          mkdir -p publish
+          cp -r docs/_build/html/* publish
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          branch: gh-pages
+          folder: publish
