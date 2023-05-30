@@ -4,6 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "certy"
+readme = "README.md"
 authors = [{name = "Tero Saarni", email = "tero.saarni@gmail.com"}]
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: Apache Software License"]

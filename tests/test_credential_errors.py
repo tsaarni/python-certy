@@ -45,7 +45,7 @@ def test_invalid_ca():
         Credential().subject("CN=joe").ca("not a valid ca")
 
 
-def test_invalid_isser():
+def test_invalid_issuer():
     with pytest.raises(ValueError):
         Credential().subject("CN=joe").issuer("not a valid issuer")
 
