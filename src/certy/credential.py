@@ -14,8 +14,8 @@ from cryptography.x509.oid import ExtendedKeyUsageOID
 class KeyType(Enum):
     """Key types are used with :meth:`Credential.key_type` to specify the type of key to generate."""
 
-    RSA = 1
-    EC = 2
+    EC = 1
+    RSA = 2
 
 
 class KeyUsage(Enum):
@@ -423,19 +423,29 @@ class Credential(object):
         self._ensure_generated()
         return self._private_key  # type: ignore
 
-    def get_private_key_as_pem(self) -> bytes:
+    def get_private_key_as_pem(self, password: str | None = None) -> bytes:
         """Get the private key in PKCS8 PEM format.
 
         If the private key has not been generated yet by calling :meth:`generate`, it will be generated.
 
+        :param password: The password to encrypt the private key with. Default is no encryption.
         :return: The private key in PKCS8 PEM format.
         :rtype: bytes
         """
         self._ensure_generated()
+
+        encryption_algorithm: serialization.KeySerializationEncryption = (
+            serialization.NoEncryption()
+        )
+        if password is not None:
+            encryption_algorithm = serialization.BestAvailableEncryption(
+                password.encode("utf-8")
+            )
+
         return self._private_key.private_bytes(  # type: ignore
             encoding=serialization.Encoding.PEM,
             format=serialization.PrivateFormat.PKCS8,
-            encryption_algorithm=serialization.NoEncryption(),
+            encryption_algorithm=encryption_algorithm,
         )
 
     def write_certificate_as_pem(self, path: str) -> None:
@@ -462,16 +472,18 @@ class Credential(object):
         with open(path, "wb") as f:
             f.write(self.get_certificates_as_pem())
 
-    def write_private_key_as_pem(self, path: str) -> None:
+    def write_private_key_as_pem(self, path: str, password: str | None = None) -> None:
         """Write the private key in PKCS8 PEM format to a file.
 
         If the private key has not been generated yet by calling :meth:`generate`, it will be generated.
 
         :param path: The path to the file.
         :type path: str
+        :param password: The password to encrypt the private key with. Default is no encryption.
+        :type password: str | None
         """
         with open(path, "wb") as f:
-            f.write(self.get_private_key_as_pem())
+            f.write(self.get_private_key_as_pem(password))
 
     # Helper methods
 

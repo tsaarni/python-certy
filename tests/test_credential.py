@@ -271,6 +271,22 @@ def test_write_pem_files(tmp_path):
     assert private_keys_equal(got_key, wanted.get_private_key())
 
 
+def test_write_pem_files_with_password(tmp_path):
+    wanted = Credential().subject("CN=joe").generate()
+    wanted.write_certificates_as_pem(tmp_path / "joe.pem")
+    wanted.write_private_key_as_pem(tmp_path / "joe-key.pem", password="secret")
+
+    # load certificate and key from files
+    got_cert = x509.load_pem_x509_certificate((tmp_path / "joe.pem").read_bytes())
+    got_key = serialization.load_pem_private_key(
+        (tmp_path / "joe-key.pem").read_bytes(), b"secret"
+    )
+
+    # check that the certificate and key match
+    assert got_cert == wanted.get_certificate()
+    assert private_keys_equal(got_key, wanted.get_private_key())
+
+
 # Helpers
 
 
