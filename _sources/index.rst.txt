@@ -23,6 +23,15 @@ The server certificate is valid for host ``app.127.0.0.1.nip.io``.
    cred.write_private_key_as_pem("key.pem")
 
 
+Installation
+============
+
+You can install certy from PyPI:
+
+.. code-block:: bash
+
+   pip install certy
+
 
 API Reference
 =============
@@ -34,3 +43,9 @@ API Reference
 
 .. _certyaml: https://github.com/tsaarni/certyaml
 .. _java-certy: https://github.com/tsaarni/java-certy/
+
+
+Bugs and feature requests
+=========================
+
+You can report bugs and request new features in the GitHub issue tracker at https://github.com/tsaarni/python-certy

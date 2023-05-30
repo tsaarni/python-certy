@@ -43,6 +43,7 @@
               <!-- Local TOC -->
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">Welcome to certy’s documentation!</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#module-certy">API Reference</a><ul>
 <li><a class="reference internal" href="#certy.Credential"><code class="docutils literal notranslate"><span class="pre">Credential</span></code></a><ul>
 <li><a class="reference internal" href="#certy.Credential.ca"><code class="docutils literal notranslate"><span class="pre">Credential.ca()</span></code></a></li>
@@ -97,6 +98,7 @@
 </li>
 </ul>
 </li>
+<li><a class="reference internal" href="#bugs-and-feature-requests">Bugs and feature requests</a></li>
 </ul>
 </div>
         </div>
@@ -139,6 +141,13 @@ The server certificate is valid for host <code class="docutils literal notransla
 <span class="linenos"> 8</span>                   <span class="o">.</span><span class="n">subject_alt_names</span><span class="p">(</span><span class="s2">&quot;DNS:app.127.0.0.1.nip.io&quot;</span><span class="p">)</span>
 <span class="linenos"> 9</span><span class="n">cred</span><span class="o">.</span><span class="n">write_certificates_as_pem</span><span class="p">(</span><span class="s2">&quot;cert.pem&quot;</span><span class="p">)</span>
 <span class="linenos">10</span><span class="n">cred</span><span class="o">.</span><span class="n">write_private_key_as_pem</span><span class="p">(</span><span class="s2">&quot;key.pem&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h1>
+<p>You can install certy from PyPI:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>certy
 </pre></div>
 </div>
 </section>
@@ -627,6 +636,10 @@ It will not include the root CA.</p>
 
 </dd></dl>
 
+</section>
+<section id="bugs-and-feature-requests">
+<h1>Bugs and feature requests<a class="headerlink" href="#bugs-and-feature-requests" title="Permalink to this heading"></a></h1>
+<p>You can report bugs and request new features in the GitHub issue tracker at <a class="reference external" href="https://github.com/tsaarni/python-certy">https://github.com/tsaarni/python-certy</a></p>
 </section>
 
 
