@@ -21,7 +21,7 @@ from certy import Credential
 ca = Credential().subject("CN=ca")
 ca.write_certificates_as_pem("ca.pem")
 
-cred = Credential().subject("CN=server").issuer(ca).subject_alt_name("DNS:app.127.0.0.1.nip.io")
+cred = Credential().subject("CN=server").issuer(ca).subject_alt_names("DNS:app.127.0.0.1.nip.io")
 cred.write_certificates_as_pem("cert.pem")
 cred.write_private_key_as_pem("key.pem")
 ```
@@ -32,4 +32,5 @@ cred.write_private_key_as_pem("key.pem")
 Create virtual environment by running `python3 -m venv .venv`, then activate it `source .venv/bin/activate`.
 Install dependencies by running `pip install -r dev-requirements.txt`.
 Run tests with `pytest`.
-Generate HTML output for test coverage with `coverage html` and view file `htmlcov/index.html`.
+To find out coverage of tests, execute `coverage run -m pytest` and then `coverage html`.
+The coverage report is generated to `htmlcov/index.html`.

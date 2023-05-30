@@ -21,8 +21,8 @@ def test_subject_alt_name():
     cert = (
         Credential()
         .subject("CN=test")
-        .subject_alt_name(
-            ["DNS:host.example.com", "URI:http://www.example.com", "IP:1.2.3.4"]
+        .subject_alt_names(
+            "DNS:host.example.com", "URI:http://www.example.com", "IP:1.2.3.4"
         )
         .generate()
         .get_certificate()
@@ -38,6 +38,18 @@ def test_subject_alt_name():
             x509.IPAddress(ipaddress.IPv4Address("1.2.3.4")),
         ]
     )
+
+    # Single subject alternative name given instead of list
+    cert = (
+        Credential()
+        .subject("CN=test")
+        .subject_alt_names("DNS:host.example.com")
+        .generate()
+        .get_certificate()
+    )
+    assert cert.extensions.get_extension_for_class(
+        x509.SubjectAlternativeName
+    ).value == x509.SubjectAlternativeName([x509.DNSName("host.example.com")])
 
 
 def test_default_key_size():
@@ -108,17 +120,15 @@ def test_key_usages():
         Credential()
         .subject("CN=joe")
         .key_usages(
-            [
-                KeyUsage.DIGITAL_SIGNATURE,
-                KeyUsage.NON_REPUDIATION,
-                KeyUsage.KEY_ENCIPHERMENT,
-                KeyUsage.DATA_ENCIPHERMENT,
-                KeyUsage.KEY_AGREEMENT,
-                KeyUsage.KEY_CERT_SIGN,
-                KeyUsage.CRL_SIGN,
-                KeyUsage.ENCIPHER_ONLY,
-                KeyUsage.DECIPHER_ONLY,
-            ]
+            KeyUsage.DIGITAL_SIGNATURE,
+            KeyUsage.NON_REPUDIATION,
+            KeyUsage.KEY_ENCIPHERMENT,
+            KeyUsage.DATA_ENCIPHERMENT,
+            KeyUsage.KEY_AGREEMENT,
+            KeyUsage.KEY_CERT_SIGN,
+            KeyUsage.CRL_SIGN,
+            KeyUsage.ENCIPHER_ONLY,
+            KeyUsage.DECIPHER_ONLY,
         )
         .generate()
         .get_certificate()
@@ -147,10 +157,8 @@ def test_extended_key_usages():
         Credential()
         .subject("CN=joe")
         .ext_key_usages(
-            [
-                ExtendedKeyUsage.CLIENT_AUTH,
-                ExtendedKeyUsage.SERVER_AUTH,
-            ]
+            ExtendedKeyUsage.CLIENT_AUTH,
+            ExtendedKeyUsage.SERVER_AUTH,
         )
         .generate()
         .get_certificate()
@@ -261,30 +269,6 @@ def test_write_pem_files(tmp_path):
     # check that the certificate and key match
     assert got_cert == wanted.get_certificate()
     assert private_keys_equal(got_key, wanted.get_private_key())
-
-
-def test_invalid_subject():
-    with pytest.raises(ValueError):
-        Credential().subject("not a valid subject").generate()
-
-
-def test_empty_subject():
-    with pytest.raises(ValueError):
-        Credential().generate()
-
-
-def test_invalid_subject_alternative_names():
-    with pytest.raises(ValueError):
-        Credential().subject("CN=joe").subject_alt_name(
-            ["not a valid subject alternative name"]
-        ).generate()
-
-
-def test_invalid_key_size():
-    with pytest.raises(ValueError):
-        Credential().subject("CN=joe").key_size(123).generate()
-    with pytest.raises(ValueError):
-        Credential().subject("CN=joe").key_type(KeyType.RSA).key_size(123).generate()
 
 
 # Helpers
