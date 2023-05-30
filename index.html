@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to certy’s documentation! &mdash; certy  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            certy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Welcome to certy’s documentation!</a></li>
+<li><a class="reference internal" href="#module-certy">API Reference</a><ul>
+<li><a class="reference internal" href="#certy.Credential"><code class="docutils literal notranslate"><span class="pre">Credential</span></code></a><ul>
+<li><a class="reference internal" href="#certy.Credential.ca"><code class="docutils literal notranslate"><span class="pre">Credential.ca()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.expires"><code class="docutils literal notranslate"><span class="pre">Credential.expires()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.ext_key_usages"><code class="docutils literal notranslate"><span class="pre">Credential.ext_key_usages()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.generate"><code class="docutils literal notranslate"><span class="pre">Credential.generate()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.get_certificate"><code class="docutils literal notranslate"><span class="pre">Credential.get_certificate()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.get_certificate_as_pem"><code class="docutils literal notranslate"><span class="pre">Credential.get_certificate_as_pem()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.get_certificates"><code class="docutils literal notranslate"><span class="pre">Credential.get_certificates()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.get_certificates_as_pem"><code class="docutils literal notranslate"><span class="pre">Credential.get_certificates_as_pem()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.get_private_key"><code class="docutils literal notranslate"><span class="pre">Credential.get_private_key()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.get_private_key_as_pem"><code class="docutils literal notranslate"><span class="pre">Credential.get_private_key_as_pem()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.issuer"><code class="docutils literal notranslate"><span class="pre">Credential.issuer()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.key_size"><code class="docutils literal notranslate"><span class="pre">Credential.key_size()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.key_type"><code class="docutils literal notranslate"><span class="pre">Credential.key_type()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.key_usages"><code class="docutils literal notranslate"><span class="pre">Credential.key_usages()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.not_after"><code class="docutils literal notranslate"><span class="pre">Credential.not_after()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.not_before"><code class="docutils literal notranslate"><span class="pre">Credential.not_before()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.serial"><code class="docutils literal notranslate"><span class="pre">Credential.serial()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.subject"><code class="docutils literal notranslate"><span class="pre">Credential.subject()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.subject_alt_names"><code class="docutils literal notranslate"><span class="pre">Credential.subject_alt_names()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.write_certificate_as_pem"><code class="docutils literal notranslate"><span class="pre">Credential.write_certificate_as_pem()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.write_certificates_as_pem"><code class="docutils literal notranslate"><span class="pre">Credential.write_certificates_as_pem()</span></code></a></li>
+<li><a class="reference internal" href="#certy.Credential.write_private_key_as_pem"><code class="docutils literal notranslate"><span class="pre">Credential.write_private_key_as_pem()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#certy.ExtendedKeyUsage"><code class="docutils literal notranslate"><span class="pre">ExtendedKeyUsage</span></code></a><ul>
+<li><a class="reference internal" href="#certy.ExtendedKeyUsage.CLIENT_AUTH"><code class="docutils literal notranslate"><span class="pre">ExtendedKeyUsage.CLIENT_AUTH</span></code></a></li>
+<li><a class="reference internal" href="#certy.ExtendedKeyUsage.CODE_SIGNING"><code class="docutils literal notranslate"><span class="pre">ExtendedKeyUsage.CODE_SIGNING</span></code></a></li>
+<li><a class="reference internal" href="#certy.ExtendedKeyUsage.EMAIL_PROTECTION"><code class="docutils literal notranslate"><span class="pre">ExtendedKeyUsage.EMAIL_PROTECTION</span></code></a></li>
+<li><a class="reference internal" href="#certy.ExtendedKeyUsage.OCSP_SIGNING"><code class="docutils literal notranslate"><span class="pre">ExtendedKeyUsage.OCSP_SIGNING</span></code></a></li>
+<li><a class="reference internal" href="#certy.ExtendedKeyUsage.SERVER_AUTH"><code class="docutils literal notranslate"><span class="pre">ExtendedKeyUsage.SERVER_AUTH</span></code></a></li>
+<li><a class="reference internal" href="#certy.ExtendedKeyUsage.TIME_STAMPING"><code class="docutils literal notranslate"><span class="pre">ExtendedKeyUsage.TIME_STAMPING</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#certy.KeyType"><code class="docutils literal notranslate"><span class="pre">KeyType</span></code></a><ul>
+<li><a class="reference internal" href="#certy.KeyType.EC"><code class="docutils literal notranslate"><span class="pre">KeyType.EC</span></code></a></li>
+<li><a class="reference internal" href="#certy.KeyType.RSA"><code class="docutils literal notranslate"><span class="pre">KeyType.RSA</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#certy.KeyUsage"><code class="docutils literal notranslate"><span class="pre">KeyUsage</span></code></a><ul>
+<li><a class="reference internal" href="#certy.KeyUsage.CRL_SIGN"><code class="docutils literal notranslate"><span class="pre">KeyUsage.CRL_SIGN</span></code></a></li>
+<li><a class="reference internal" href="#certy.KeyUsage.DATA_ENCIPHERMENT"><code class="docutils literal notranslate"><span class="pre">KeyUsage.DATA_ENCIPHERMENT</span></code></a></li>
+<li><a class="reference internal" href="#certy.KeyUsage.DECIPHER_ONLY"><code class="docutils literal notranslate"><span class="pre">KeyUsage.DECIPHER_ONLY</span></code></a></li>
+<li><a class="reference internal" href="#certy.KeyUsage.DIGITAL_SIGNATURE"><code class="docutils literal notranslate"><span class="pre">KeyUsage.DIGITAL_SIGNATURE</span></code></a></li>
+<li><a class="reference internal" href="#certy.KeyUsage.ENCIPHER_ONLY"><code class="docutils literal notranslate"><span class="pre">KeyUsage.ENCIPHER_ONLY</span></code></a></li>
+<li><a class="reference internal" href="#certy.KeyUsage.KEY_AGREEMENT"><code class="docutils literal notranslate"><span class="pre">KeyUsage.KEY_AGREEMENT</span></code></a></li>
+<li><a class="reference internal" href="#certy.KeyUsage.KEY_CERT_SIGN"><code class="docutils literal notranslate"><span class="pre">KeyUsage.KEY_CERT_SIGN</span></code></a></li>
+<li><a class="reference internal" href="#certy.KeyUsage.KEY_ENCIPHERMENT"><code class="docutils literal notranslate"><span class="pre">KeyUsage.KEY_ENCIPHERMENT</span></code></a></li>
+<li><a class="reference internal" href="#certy.KeyUsage.NON_REPUDIATION"><code class="docutils literal notranslate"><span class="pre">KeyUsage.NON_REPUDIATION</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">certy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Welcome to certy’s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="welcome-to-certy-s-documentation">
+<h1>Welcome to certy’s documentation!<a class="headerlink" href="#welcome-to-certy-s-documentation" title="Permalink to this heading"></a></h1>
+<p>Certy provides a simple API for creating X509 certificates on demand when running unit tests. No more storing test certificates and private keys in the repository!</p>
+<p>Python-certy is a version of similar tool for command line and Golang called <a class="reference external" href="https://github.com/tsaarni/certyaml">certyaml</a> and <a class="reference external" href="https://github.com/tsaarni/java-certy/">java-certy</a> for Java.</p>
+<p>Following example creates a CA certificate and a server certificate signed by the CA.
+The server certificate is valid for host <code class="docutils literal notranslate"><span class="pre">app.127.0.0.1.nip.io</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">certy</span> <span class="kn">import</span> <span class="n">Credential</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="n">ca</span> <span class="o">=</span> <span class="n">Credential</span><span class="p">()</span><span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=ca&quot;</span><span class="p">)</span>
+<span class="linenos"> 4</span><span class="n">ca</span><span class="o">.</span><span class="n">write_certificates_as_pem</span><span class="p">(</span><span class="s2">&quot;ca.pem&quot;</span><span class="p">)</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="n">cred</span> <span class="o">=</span> <span class="n">Credential</span><span class="p">()</span><span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=server&quot;</span><span class="p">)</span>
+<span class="linenos"> 7</span>                   <span class="o">.</span><span class="n">issuer</span><span class="p">(</span><span class="n">ca</span><span class="p">)</span>
+<span class="linenos"> 8</span>                   <span class="o">.</span><span class="n">subject_alt_names</span><span class="p">(</span><span class="s2">&quot;DNS:app.127.0.0.1.nip.io&quot;</span><span class="p">)</span>
+<span class="linenos"> 9</span><span class="n">cred</span><span class="o">.</span><span class="n">write_certificates_as_pem</span><span class="p">(</span><span class="s2">&quot;cert.pem&quot;</span><span class="p">)</span>
+<span class="linenos">10</span><span class="n">cred</span><span class="o">.</span><span class="n">write_private_key_as_pem</span><span class="p">(</span><span class="s2">&quot;key.pem&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="module-certy">
+<span id="api-reference"></span><h1>API Reference<a class="headerlink" href="#module-certy" title="Permalink to this heading"></a></h1>
+<p>Certy is a simple X509 certificate generator for Python.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="certy.Credential">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">certy.</span></span><span class="sig-name descname"><span class="pre">Credential</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Name</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject_alt_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">GeneralNames</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#certy.KeyType" title="certy.credential.KeyType"><span class="pre">KeyType</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expires</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">timedelta</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">not_before</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">not_after</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">issuer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_ca</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_usages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#certy.KeyUsage" title="certy.credential.KeyUsage"><span class="pre">KeyUsage</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext_key_usages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#certy.ExtendedKeyUsage" title="certy.credential.ExtendedKeyUsage"><span class="pre">ExtendedKeyUsage</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certy.Credential" title="Permalink to this definition"></a></dt>
+<dd><p>A class representing a certificate and its private key</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.ca">
+<span class="sig-name descname"><span class="pre">ca</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ca</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.ca" title="Permalink to this definition"></a></dt>
+<dd><p>Set whether this credential is a CA or not.</p>
+<p>By default, it is set to <code class="docutils literal notranslate"><span class="pre">True</span></code> for credentials that are self-signed, <code class="docutils literal notranslate"><span class="pre">False</span></code> for credentials that are not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ca</strong> (<em>bool</em>) – Whether this credential is a CA or not.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>This credential instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#certy.Credential" title="certy.Credential">Credential</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.expires">
+<span class="sig-name descname"><span class="pre">expires</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expires</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">timedelta</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.expires" title="Permalink to this definition"></a></dt>
+<dd><p>Set the expiration time of this credential.</p>
+<p>If not set, the expiration time will be set to 365 days from the current time, unless overridden by calling <a class="reference internal" href="#certy.Credential.not_after" title="certy.Credential.not_after"><code class="xref py py-meth docutils literal notranslate"><span class="pre">not_after()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>expires</strong> (<em>datetime.timedelta</em>) – The expiration time of this credential.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>This credential instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#certy.Credential" title="certy.Credential">Credential</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.ext_key_usages">
+<span class="sig-name descname"><span class="pre">ext_key_usages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">ext_key_usages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#certy.ExtendedKeyUsage" title="certy.credential.ExtendedKeyUsage"><span class="pre">ExtendedKeyUsage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.ext_key_usages" title="Permalink to this definition"></a></dt>
+<dd><p>Set the extended key usages of this credential.</p>
+<p>If not set, extended key usages extension will not be included in the certificate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ext_key_usages</strong> (<em>tuple</em><em>[</em><a class="reference internal" href="#certy.ExtendedKeyUsage" title="certy.ExtendedKeyUsage"><em>ExtendedKeyUsage</em></a><em>]</em>) – The extended key usages of this credential. One or more of certy.ExtendedKeyUsage.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>This credential instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#certy.Credential" title="certy.Credential">Credential</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.generate" title="Permalink to this definition"></a></dt>
+<dd><p>Generate the credential.
+This method will (re)generate the private key and the certificate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>This credential instance.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#certy.Credential" title="certy.Credential">Credential</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.get_certificate">
+<span class="sig-name descname"><span class="pre">get_certificate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Certificate</span></span></span><a class="headerlink" href="#certy.Credential.get_certificate" title="Permalink to this definition"></a></dt>
+<dd><p>Get the certificate.</p>
+<p>If the certificate has not been generated yet by calling <a class="reference internal" href="#certy.Credential.generate" title="certy.Credential.generate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">generate()</span></code></a>, it will be automatically generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The certificate.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>x509.Certificate</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.get_certificate_as_pem">
+<span class="sig-name descname"><span class="pre">get_certificate_as_pem</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#certy.Credential.get_certificate_as_pem" title="Permalink to this definition"></a></dt>
+<dd><p>Get the certificate in PEM format.</p>
+<p>If the certificate has not been generated yet by calling <a class="reference internal" href="#certy.Credential.generate" title="certy.Credential.generate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">generate()</span></code></a>, it will be automatically generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The certificate in PEM format.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.get_certificates">
+<span class="sig-name descname"><span class="pre">get_certificates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Certificate</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#certy.Credential.get_certificates" title="Permalink to this definition"></a></dt>
+<dd><p>Get the certificate chain including the certificate itself and its issuers.
+It will not include the root CA.</p>
+<p>If the certificate has not been generated yet by calling <a class="reference internal" href="#certy.Credential.generate" title="certy.Credential.generate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">generate()</span></code></a>, it will be automatically generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The certificate chain.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[x509.Certificate]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.get_certificates_as_pem">
+<span class="sig-name descname"><span class="pre">get_certificates_as_pem</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#certy.Credential.get_certificates_as_pem" title="Permalink to this definition"></a></dt>
+<dd><p>Get the certificate chain in PEM format including the certificate itself and its issuers.
+It will not include the root CA.</p>
+<p>If the certificate has not been generated yet by calling <a class="reference internal" href="#certy.Credential.generate" title="certy.Credential.generate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">generate()</span></code></a>, it will be automatically generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The certificate chain in PEM format.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.get_private_key">
+<span class="sig-name descname"><span class="pre">get_private_key</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">RSAPrivateKey</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">EllipticCurvePrivateKey</span></span></span><a class="headerlink" href="#certy.Credential.get_private_key" title="Permalink to this definition"></a></dt>
+<dd><p>Get the private key.</p>
+<p>If the private key has not been generated yet by calling <a class="reference internal" href="#certy.Credential.generate" title="certy.Credential.generate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">generate()</span></code></a>, it will be automatically generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The private key.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>rsa.RSAPrivateKey | ec.EllipticCurvePrivateKey</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.get_private_key_as_pem">
+<span class="sig-name descname"><span class="pre">get_private_key_as_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#certy.Credential.get_private_key_as_pem" title="Permalink to this definition"></a></dt>
+<dd><p>Get the private key in PKCS8 PEM format.</p>
+<p>If the private key has not been generated yet by calling <a class="reference internal" href="#certy.Credential.generate" title="certy.Credential.generate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">generate()</span></code></a>, it will be automatically generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>password</strong> – The password to encrypt the private key with. If not set, the private key will not be encrypted.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The private key in PKCS8 PEM format.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.issuer">
+<span class="sig-name descname"><span class="pre">issuer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">issuer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.issuer" title="Permalink to this definition"></a></dt>
+<dd><p>Set the issuer of this credential.</p>
+<p>If not set, the issuer will be the same as the subject and the credential will be self-signed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>issuer</strong> (<a class="reference internal" href="#certy.Credential" title="certy.Credential"><em>Credential</em></a>) – The issuer of this credential.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>This credential instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#certy.Credential" title="certy.Credential">Credential</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.key_size">
+<span class="sig-name descname"><span class="pre">key_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.key_size" title="Permalink to this definition"></a></dt>
+<dd><p>Set the key size of this credential.</p>
+<p>If not set, the key size will be 256 for EC keys and 2048 for RSA keys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key_size</strong> (<em>int</em>) – The key size of this credential. Valid values depend on the key type.
+For EC keys, valid values are 256, 384, and 521.
+For RSA keys, valid values are 1024, 2048, and 4096.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>This credential instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#certy.Credential" title="certy.Credential">Credential</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.key_type">
+<span class="sig-name descname"><span class="pre">key_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#certy.KeyType" title="certy.credential.KeyType"><span class="pre">KeyType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.key_type" title="Permalink to this definition"></a></dt>
+<dd><p>Set the key type of this credential.</p>
+<p>If not set, the key type will be <a class="reference internal" href="#certy.KeyType.EC" title="certy.KeyType.EC"><code class="xref py py-data docutils literal notranslate"><span class="pre">KeyType.EC</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key_type</strong> (<a class="reference internal" href="#certy.KeyType" title="certy.KeyType"><em>KeyType</em></a>) – The key type of this credential. Must be <a class="reference internal" href="#certy.KeyType.EC" title="certy.KeyType.EC"><code class="xref py py-data docutils literal notranslate"><span class="pre">KeyType.EC</span></code></a> or <a class="reference internal" href="#certy.KeyType.RSA" title="certy.KeyType.RSA"><code class="xref py py-data docutils literal notranslate"><span class="pre">KeyType.RSA</span></code></a>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>This credential instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#certy.Credential" title="certy.Credential">Credential</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.key_usages">
+<span class="sig-name descname"><span class="pre">key_usages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">key_usages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#certy.KeyUsage" title="certy.credential.KeyUsage"><span class="pre">KeyUsage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.key_usages" title="Permalink to this definition"></a></dt>
+<dd><p>Set the key usages of this credential.</p>
+<p>If no key usages are set, the default is to include digital signature and
+key encipherment for end-entity certificates, and certificate signing and CRL signing
+for CA certificates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key_usages</strong> (<em>tuple</em><em>[</em><a class="reference internal" href="#certy.KeyUsage" title="certy.KeyUsage"><em>certy.KeyUsage</em></a><em>]</em>) – The key usages of this credential. One or more of certy.KeyUsage.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>This credential instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#certy.Credential" title="certy.Credential">Credential</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.not_after">
+<span class="sig-name descname"><span class="pre">not_after</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">not_after</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.not_after" title="Permalink to this definition"></a></dt>
+<dd><p>Set the not after time of this credential.</p>
+<p>If not set, the not after time will be set to the not before time plus the expiration time set by <a class="reference internal" href="#certy.Credential.expires" title="certy.Credential.expires"><code class="xref py py-meth docutils literal notranslate"><span class="pre">expires()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>not_after</strong> (<em>datetime.datetime</em>) – The not after time of this credential.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>This credential instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#certy.Credential" title="certy.Credential">Credential</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.not_before">
+<span class="sig-name descname"><span class="pre">not_before</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">not_before</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.not_before" title="Permalink to this definition"></a></dt>
+<dd><p>Set the not before time of this credential.</p>
+<p>If not set, the not before time will be set to the current time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>not_before</strong> (<em>datetime.datetime</em>) – The not before time of this credential.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>This credential instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#certy.Credential" title="certy.Credential">Credential</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.serial">
+<span class="sig-name descname"><span class="pre">serial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serial</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.serial" title="Permalink to this definition"></a></dt>
+<dd><p>Set the serial number of this credential.</p>
+<p>If not set, the serial number will be a random value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>serial</strong> (<em>int</em>) – The serial number of this credential.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>This credential instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#certy.Credential" title="certy.Credential">Credential</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.subject">
+<span class="sig-name descname"><span class="pre">subject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.subject" title="Permalink to this definition"></a></dt>
+<dd><p>Set the subject name of this credential.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>subject</strong> (<em>str</em>) – The subject name of this credential. Must be a valid RFC4514 string, for example <code class="docutils literal notranslate"><span class="pre">CN=example.com</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>This credential instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#certy.Credential" title="certy.Credential">Credential</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.subject_alt_names">
+<span class="sig-name descname"><span class="pre">subject_alt_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">subject_alt_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.subject_alt_names" title="Permalink to this definition"></a></dt>
+<dd><p>Set the subject alternative names of this credential.</p>
+<p>If not set, the subject alternative names extension will not be included in the certificate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>subject_alt_names</strong> (<em>tuple</em><em>[</em><em>str</em><em>]</em>) – The subject alternative name or names of this credential. Must be one of the following:
+DNS name for example <code class="docutils literal notranslate"><span class="pre">DNS:example.com</span></code>,
+IP address for example <code class="docutils literal notranslate"><span class="pre">IP:1.2.3.4</span></code>,
+or URI for example <code class="docutils literal notranslate"><span class="pre">URI:https://example.com</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>This credential instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#certy.Credential" title="certy.Credential">Credential</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.write_certificate_as_pem">
+<span class="sig-name descname"><span class="pre">write_certificate_as_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#certy.Credential.write_certificate_as_pem" title="Permalink to this definition"></a></dt>
+<dd><p>Write the certificate in PEM format to a file.</p>
+<p>If the certificate has not been generated yet by calling <a class="reference internal" href="#certy.Credential.generate" title="certy.Credential.generate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">generate()</span></code></a>, it will be automatically generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.write_certificates_as_pem">
+<span class="sig-name descname"><span class="pre">write_certificates_as_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#certy.Credential.write_certificates_as_pem" title="Permalink to this definition"></a></dt>
+<dd><p>Write the certificate chain in PEM format to a file.
+The chain includes the certificate itself and its issuers.
+It will not include the root CA.</p>
+<p>If the certificate has not been generated yet by calling <a class="reference internal" href="#certy.Credential.generate" title="certy.Credential.generate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">generate()</span></code></a>, it will be automatically generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="certy.Credential.write_private_key_as_pem">
+<span class="sig-name descname"><span class="pre">write_private_key_as_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#certy.Credential.write_private_key_as_pem" title="Permalink to this definition"></a></dt>
+<dd><p>Write the private key in PKCS8 PEM format to a file.</p>
+<p>If the private key has not been generated yet by calling <a class="reference internal" href="#certy.Credential.generate" title="certy.Credential.generate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">generate()</span></code></a>, it will be automatically generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – The path to the file.</p></li>
+<li><p><strong>password</strong> (<em>str</em><em> | </em><em>None</em>) – The password to encrypt the private key with. If not set, the private key will not be encrypted.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="certy.ExtendedKeyUsage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">certy.</span></span><span class="sig-name descname"><span class="pre">ExtendedKeyUsage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certy.ExtendedKeyUsage" title="Permalink to this definition"></a></dt>
+<dd><p>Extended key usages are used with <a class="reference internal" href="#certy.Credential.ext_key_usages" title="certy.Credential.ext_key_usages"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Credential.ext_key_usages()</span></code></a> to specify the extended key usages for the certificate.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.ExtendedKeyUsage.CLIENT_AUTH">
+<span class="sig-name descname"><span class="pre">CLIENT_AUTH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ObjectIdentifier(oid=1.3.6.1.5.5.7.3.2,</span> <span class="pre">name=clientAuth)&gt;</span></em><a class="headerlink" href="#certy.ExtendedKeyUsage.CLIENT_AUTH" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.ExtendedKeyUsage.CODE_SIGNING">
+<span class="sig-name descname"><span class="pre">CODE_SIGNING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ObjectIdentifier(oid=1.3.6.1.5.5.7.3.3,</span> <span class="pre">name=codeSigning)&gt;</span></em><a class="headerlink" href="#certy.ExtendedKeyUsage.CODE_SIGNING" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.ExtendedKeyUsage.EMAIL_PROTECTION">
+<span class="sig-name descname"><span class="pre">EMAIL_PROTECTION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ObjectIdentifier(oid=1.3.6.1.5.5.7.3.4,</span> <span class="pre">name=emailProtection)&gt;</span></em><a class="headerlink" href="#certy.ExtendedKeyUsage.EMAIL_PROTECTION" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.ExtendedKeyUsage.OCSP_SIGNING">
+<span class="sig-name descname"><span class="pre">OCSP_SIGNING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ObjectIdentifier(oid=1.3.6.1.5.5.7.3.9,</span> <span class="pre">name=OCSPSigning)&gt;</span></em><a class="headerlink" href="#certy.ExtendedKeyUsage.OCSP_SIGNING" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.ExtendedKeyUsage.SERVER_AUTH">
+<span class="sig-name descname"><span class="pre">SERVER_AUTH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ObjectIdentifier(oid=1.3.6.1.5.5.7.3.1,</span> <span class="pre">name=serverAuth)&gt;</span></em><a class="headerlink" href="#certy.ExtendedKeyUsage.SERVER_AUTH" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.ExtendedKeyUsage.TIME_STAMPING">
+<span class="sig-name descname"><span class="pre">TIME_STAMPING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ObjectIdentifier(oid=1.3.6.1.5.5.7.3.8,</span> <span class="pre">name=timeStamping)&gt;</span></em><a class="headerlink" href="#certy.ExtendedKeyUsage.TIME_STAMPING" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="certy.KeyType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">certy.</span></span><span class="sig-name descname"><span class="pre">KeyType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certy.KeyType" title="Permalink to this definition"></a></dt>
+<dd><p>Key types are used with <a class="reference internal" href="#certy.Credential.key_type" title="certy.Credential.key_type"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Credential.key_type()</span></code></a> to specify the type of key to generate.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.KeyType.EC">
+<span class="sig-name descname"><span class="pre">EC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#certy.KeyType.EC" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.KeyType.RSA">
+<span class="sig-name descname"><span class="pre">RSA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#certy.KeyType.RSA" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="certy.KeyUsage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">certy.</span></span><span class="sig-name descname"><span class="pre">KeyUsage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certy.KeyUsage" title="Permalink to this definition"></a></dt>
+<dd><p>Key usages are used with <code class="xref py py-meth docutils literal notranslate"><span class="pre">Credential.key_usage()</span></code> to specify the key usages for the certificate.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.KeyUsage.CRL_SIGN">
+<span class="sig-name descname"><span class="pre">CRL_SIGN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'crl_sign'</span></em><a class="headerlink" href="#certy.KeyUsage.CRL_SIGN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.KeyUsage.DATA_ENCIPHERMENT">
+<span class="sig-name descname"><span class="pre">DATA_ENCIPHERMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'data_encipherment'</span></em><a class="headerlink" href="#certy.KeyUsage.DATA_ENCIPHERMENT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.KeyUsage.DECIPHER_ONLY">
+<span class="sig-name descname"><span class="pre">DECIPHER_ONLY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'decipher_only'</span></em><a class="headerlink" href="#certy.KeyUsage.DECIPHER_ONLY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.KeyUsage.DIGITAL_SIGNATURE">
+<span class="sig-name descname"><span class="pre">DIGITAL_SIGNATURE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'digital_signature'</span></em><a class="headerlink" href="#certy.KeyUsage.DIGITAL_SIGNATURE" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.KeyUsage.ENCIPHER_ONLY">
+<span class="sig-name descname"><span class="pre">ENCIPHER_ONLY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'encipher_only'</span></em><a class="headerlink" href="#certy.KeyUsage.ENCIPHER_ONLY" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.KeyUsage.KEY_AGREEMENT">
+<span class="sig-name descname"><span class="pre">KEY_AGREEMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'key_agreement'</span></em><a class="headerlink" href="#certy.KeyUsage.KEY_AGREEMENT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.KeyUsage.KEY_CERT_SIGN">
+<span class="sig-name descname"><span class="pre">KEY_CERT_SIGN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'key_cert_sign'</span></em><a class="headerlink" href="#certy.KeyUsage.KEY_CERT_SIGN" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.KeyUsage.KEY_ENCIPHERMENT">
+<span class="sig-name descname"><span class="pre">KEY_ENCIPHERMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'key_encipherment'</span></em><a class="headerlink" href="#certy.KeyUsage.KEY_ENCIPHERMENT" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="certy.KeyUsage.NON_REPUDIATION">
+<span class="sig-name descname"><span class="pre">NON_REPUDIATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'content_commitment'</span></em><a class="headerlink" href="#certy.KeyUsage.NON_REPUDIATION" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Certy Authors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
