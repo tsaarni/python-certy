@@ -3,7 +3,6 @@ from __future__ import annotations
 import ipaddress
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import List
 
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes, serialization
@@ -44,7 +43,7 @@ class ExtendedKeyUsage(Enum):
 
 
 class Credential(object):
-    """A class representing a certificate and associated private key"""
+    """Credential representing a certificate and associated private key"""
 
     def __init__(
         self,
@@ -57,8 +56,8 @@ class Credential(object):
         not_after: datetime | None = None,
         issuer: Credential | None = None,
         is_ca: bool | None = None,
-        key_usages: List[KeyUsage] | None = None,
-        ext_key_usages: List[ExtendedKeyUsage] | None = None,
+        key_usages: list[KeyUsage] | None = None,
+        ext_key_usages: list[ExtendedKeyUsage] | None = None,
         serial: int | None = None,
     ):
         self._subject = subject
@@ -86,7 +85,10 @@ class Credential(object):
     def ca(self, ca: bool = True) -> Credential:
         """Set whether this credential is a CA or not.
 
-        By default, it is set to ``True`` for credentials that are self-signed, ``False`` for credentials that are not.
+        If CA is set to ``True``, the key usage ``KeyUsage.KEY_CERT_SIGN`` and ``KeyUsage.CRL_SIGN`` are set
+        to the certificate, and the basic constraints extension is included with ``ca`` field set to ``True``.
+
+        If not called, ``True`` is used for credentials that are self-signed, ``False`` for credentials that are not.
 
         :param ca: Whether this credential is a CA or not.
         :type ca: bool
@@ -101,7 +103,8 @@ class Credential(object):
     def subject(self, subject: str) -> Credential:
         """Set the subject name of this credential.
 
-        :param subject: The subject name of this credential. Must be a valid RFC4514 string, for example ``CN=example.com``.
+        :param subject: The subject name of this credential. Must be a valid RFC4514 string,
+            for example ``CN=example.com``.
         :type subject: str
         :return: This credential instance.
         :rtype: Credential
@@ -114,12 +117,13 @@ class Credential(object):
     def subject_alt_names(self, *subject_alt_names: str) -> Credential:
         """Set the subject alternative names of this credential.
 
-        If not set, the subject alternative names extension will not be included in the certificate.
+        If not called, the subject alternative names extension is not included in the certificate.
 
-        :param subject_alt_names: The subject alternative name or names of this credential. Must be one of the following:
+        :param subject_alt_names: The subject alternative name or names of this credential.
+            Must be one of the following:
             DNS name for example ``DNS:example.com``,
-            IP address for example ``IP:1.2.3.4``,
-            or URI for example ``URI:https://example.com``.
+            IP address ``IP:1.2.3.4``,
+            or URI ``URI:https://example.com``.
         :type subject_alt_names: tuple[str]
         :return: This credential instance.
         :rtype: Credential
@@ -130,7 +134,7 @@ class Credential(object):
     def issuer(self, issuer: Credential) -> Credential:
         """Set the issuer of this credential.
 
-        If not set, the issuer will be the same as the subject and the credential will be self-signed.
+        If not called, the issuer is set to the same value as the subject and the certificate is self-signed.
 
         :param issuer: The issuer of this credential.
         :type issuer: Credential
@@ -145,7 +149,7 @@ class Credential(object):
     def key_type(self, key_type: KeyType) -> Credential:
         """Set the key type of this credential.
 
-        If not set, the key type will be :data:`KeyType.EC`.
+        If not called, the key type will be :data:`KeyType.EC`.
 
         :param key_type: The key type of this credential. Must be :data:`KeyType.EC` or :data:`KeyType.RSA`.
         :type key_type: KeyType
@@ -160,7 +164,7 @@ class Credential(object):
     def key_size(self, key_size: int) -> Credential:
         """Set the key size of this credential.
 
-        If not set, the key size will be 256 for EC keys and 2048 for RSA keys.
+        If not called, the key size is ``256`` for :data:`KeyType.EC` and ``2048`` for :data:`KeyType.RSA`.
 
         :param key_size: The key size of this credential. Valid values depend on the key type.
             For EC keys, valid values are 256, 384, and 521.
@@ -181,7 +185,9 @@ class Credential(object):
     def expires(self, expires: timedelta) -> Credential:
         """Set the expiration time of this credential.
 
-        If not set, the expiration time will be set to 365 days from the current time, unless overridden by calling :meth:`not_after`.
+        The value is used to calculate the ``notAfter`` time for the certificate.
+        If not called, the certificate will expire 365 days from ``notBefore``, unless overridden by
+        calling :meth:`not_after`.
 
         :param expires: The expiration time of this credential.
         :type expires: datetime.timedelta
@@ -196,7 +202,7 @@ class Credential(object):
     def not_before(self, not_before: datetime) -> Credential:
         """Set the not before time of this credential.
 
-        If not set, the not before time will be set to the current time.
+        If not called, current time is used.
 
         :param not_before: The not before time of this credential.
         :type not_before: datetime.datetime
@@ -211,7 +217,8 @@ class Credential(object):
     def not_after(self, not_after: datetime) -> Credential:
         """Set the not after time of this credential.
 
-        If not set, the not after time will be set to the not before time plus the expiration time set by :meth:`expires`.
+        If not called, the not after time will be set to time given by :meth:`not_before`
+        plus the expiration time set by :meth:`expires`.
 
         :param not_after: The not after time of this credential.
         :type not_after: datetime.datetime
@@ -226,7 +233,7 @@ class Credential(object):
     def serial(self, serial: int) -> Credential:
         """Set the serial number of this credential.
 
-        If not set, the serial number will be a random value.
+        If not called, the serial number is set to a random value.
 
         :param serial: The serial number of this credential.
         :type serial: int
@@ -241,11 +248,11 @@ class Credential(object):
     def key_usages(self, *key_usages: KeyUsage) -> Credential:
         """Set the key usages of this credential.
 
-        If no key usages are set, the default is to include digital signature and
-        key encipherment for end-entity certificates, and certificate signing and CRL signing
-        for CA certificates.
+        If not called, the key usages ``KeyUsage.DIGITAL_SIGNATURE`` and ``KeyUsage.KEY_ENCIPHERMENT`` are set
+        to end-entity certificates (:meth:`ca` is not ``False``), and ``KeyUsage.KEY_CERT_SIGN`` and
+        ``KeyUsage.CRL_SIGN`` are set to CA certificates (:meth:`ca` is ``True``).
 
-        :param key_usages: The key usages of this credential. One or more of certy.KeyUsage.
+        :param key_usages: The key usages of this credential. One or more of :data:`certy.KeyUsage`.
         :type key_usages: tuple[certy.KeyUsage]
         :return: This credential instance.
         :rtype: Credential
@@ -259,7 +266,7 @@ class Credential(object):
     def ext_key_usages(self, *ext_key_usages: ExtendedKeyUsage) -> Credential:
         """Set the extended key usages of this credential.
 
-        If not set, extended key usages extension will not be included in the certificate.
+        If not called, extended key usages extension is not be included in the certificate.
 
         :param ext_key_usages: The extended key usages of this credential. One or more of certy.ExtendedKeyUsage.
         :type ext_key_usages: tuple[ExtendedKeyUsage]
@@ -390,22 +397,22 @@ class Credential(object):
     def get_certificate(self) -> x509.Certificate:
         """Get the certificate.
 
-        If the certificate has not been generated yet by calling :meth:`generate`, it will be automatically generated.
+        If the certificate has not been generated yet by calling :meth:`generate`, it is generated automatically.
 
         :return: The certificate.
-        :rtype: x509.Certificate
+        :rtype: cryptography.x509.Certificate
         """
         self._ensure_generated()
         return self._certificate  # type: ignore
 
-    def get_certificates(self) -> List[x509.Certificate]:
+    def get_certificates(self) -> list[x509.Certificate]:
         """Get the certificate chain including the certificate itself and its issuers.
         It will not include the root CA.
 
-        If the certificate has not been generated yet by calling :meth:`generate`, it will be automatically generated.
+        If the certificate has not been generated yet by calling :meth:`generate`, it is generated automatically.
 
         :return: The certificate chain.
-        :rtype: List[x509.Certificate]
+        :rtype: list[cryptography.x509.Certificate]
         """
         self._ensure_generated()
         return self._get_chain()
@@ -413,7 +420,7 @@ class Credential(object):
     def get_certificate_as_pem(self) -> bytes:
         """Get the certificate in PEM format.
 
-        If the certificate has not been generated yet by calling :meth:`generate`, it will be automatically generated.
+        If the certificate has not been generated yet by calling :meth:`generate`, it is generated automatically.
 
         :return: The certificate in PEM format.
         :rtype: bytes
@@ -422,10 +429,10 @@ class Credential(object):
         return self._certificate.public_bytes(encoding=serialization.Encoding.PEM)  # type: ignore
 
     def get_certificates_as_pem(self) -> bytes:
-        """Get the certificate chain in PEM format including the certificate itself and its issuers.
-        It will not include the root CA.
+        """Get the certificate chain in PEM format.
+        The PEM bundle includes the certificate itself and its issuers, but not the root CA.
 
-        If the certificate has not been generated yet by calling :meth:`generate`, it will be automatically generated.
+        If the certificate has not been generated yet by calling :meth:`generate`, it is generated automatically.
 
         :return: The certificate chain in PEM format.
         :rtype: bytes
@@ -439,10 +446,10 @@ class Credential(object):
     def get_private_key(self) -> rsa.RSAPrivateKey | ec.EllipticCurvePrivateKey:
         """Get the private key.
 
-        If the private key has not been generated yet by calling :meth:`generate`, it will be automatically generated.
+        If the private key has not been generated yet by calling :meth:`generate`, it is generated automatically.
 
         :return: The private key.
-        :rtype: rsa.RSAPrivateKey | ec.EllipticCurvePrivateKey
+        :rtype: cryptography.hazmat.primitives.asymmetric.rsa.RSAPrivateKey | cryptography.hazmat.primitives.asymmetric.ec.EllipticCurvePrivateKey
         """
         self._ensure_generated()
         return self._private_key  # type: ignore
@@ -450,9 +457,9 @@ class Credential(object):
     def get_private_key_as_pem(self, password: str | None = None) -> bytes:
         """Get the private key in PKCS8 PEM format.
 
-        If the private key has not been generated yet by calling :meth:`generate`, it will be automatically generated.
+        If the private key has not been generated yet by calling :meth:`generate`, it is generated automatically.
 
-        :param password: The password to encrypt the private key with. If not set, the private key will not be encrypted.
+        :param password: The password to encrypt the private key with. If not set, the private key is not encrypted.
         :return: The private key in PKCS8 PEM format.
         :rtype: bytes
         """
@@ -475,7 +482,7 @@ class Credential(object):
     def write_certificate_as_pem(self, path: str) -> None:
         """Write the certificate in PEM format to a file.
 
-        If the certificate has not been generated yet by calling :meth:`generate`, it will be automatically generated.
+        If the certificate has not been generated yet by calling :meth:`generate`, it is generated automatically.
 
         :param path: The path to the file.
         :type path: str
@@ -485,10 +492,9 @@ class Credential(object):
 
     def write_certificates_as_pem(self, path: str) -> None:
         """Write the certificate chain in PEM format to a file.
-        The chain includes the certificate itself and its issuers.
-        It will not include the root CA.
+        The PEM bundle includes the certificate itself and its issuers, but not the root CA.
 
-        If the certificate has not been generated yet by calling :meth:`generate`, it will be automatically generated.
+        If the certificate has not been generated yet by calling :meth:`generate`, it is generated automatically.
 
         :param path: The path to the file.
         :type path: str
@@ -499,11 +505,11 @@ class Credential(object):
     def write_private_key_as_pem(self, path: str, password: str | None = None) -> None:
         """Write the private key in PKCS8 PEM format to a file.
 
-        If the private key has not been generated yet by calling :meth:`generate`, it will be automatically generated.
+        If the private key has not been generated yet by calling :meth:`generate`, it is generated automatically.
 
         :param path: The path to the file.
         :type path: str
-        :param password: The password to encrypt the private key with. If not set, the private key will not be encrypted.
+        :param password: The password to encrypt the private key with. If not set, the private key is not encrypted.
         :type password: str | None
         """
         with open(path, "wb") as f:
@@ -516,7 +522,7 @@ class Credential(object):
             self.generate()
         return self
 
-    def _get_chain(self) -> List[x509.Certificate]:
+    def _get_chain(self) -> list[x509.Certificate]:
         chain = [self._certificate]
         parent = self._issuer
         while parent is not None and parent._issuer is not None:
@@ -549,7 +555,7 @@ def _generate_new_key(
     raise ValueError(f"Invalid key type: {key_type}")
 
 
-def _as_general_names(names: List[str]) -> x509.GeneralNames:
+def _as_general_names(names: list[str]) -> x509.GeneralNames:
     general_names = []
     for name in names:
         if name.startswith("DNS:"):

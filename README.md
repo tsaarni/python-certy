@@ -23,11 +23,11 @@ cred.write_private_key_as_pem("key.pem")
 ```
 ## Documentation
 
-Documentation is available [here](https://tsaarni.github.io/python-certy/).
+The latest documentation is available [here](https://tsaarni.github.io/python-certy/).
 
 ## Installation
 
-You can install certy from PyPI:
+Install certy from [PyPI](https://pypi.org/project/certy/):
 
 ```bash
 pip install certy
