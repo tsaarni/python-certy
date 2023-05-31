@@ -10,7 +10,7 @@ from certy import Credential
 
 def serve_https(server_cert_path, server_key_path, client_root_ca_path):
     # Create SSLContext for the server.
-    # Require client certificate signed by the client root CA.
+    # Require client to present certificate, signed by the client root CA.
     context = ssl.create_default_context(
         ssl.Purpose.CLIENT_AUTH, cafile=client_root_ca_path
     )
@@ -26,6 +26,8 @@ def serve_https(server_cert_path, server_key_path, client_root_ca_path):
 
 # Create root CA and intermediate CA for issuing server certificate.
 server_root_ca_cred = Credential().subject("CN=server-root-ca")
+# Certy does not recognize intermediate CA as CA since it is not self-signed.
+# ca() needs to be called explicitly to prepare the certificate as CA cert.
 server_intermediate_ca_cred = (
     Credential().subject("CN=server-intermediate-ca").issuer(server_root_ca_cred).ca()
 )
@@ -46,7 +48,9 @@ client_cred = Credential().subject("CN=joe").issuer(client_root_ca_cred)
 
 # Write the certificates and keys to disk.
 server_root_ca_cred.write_certificates_as_pem("server-root-ca.pem")
-server_cred.write_certificates_as_pem("server.pem")
+server_cred.write_certificates_as_pem(
+    "server.pem"
+)  # server.pem bundle includes chain: server cert, intermediate CA (in that order).
 server_cred.write_private_key_as_pem("server-key.pem")
 client_root_ca_cred.write_certificates_as_pem("client-root-ca.pem")
 client_cred.write_certificates_as_pem("client.pem")

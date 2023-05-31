@@ -24,13 +24,17 @@ extensions = [
     "sphinx_rtd_theme",
 ]
 
-
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
+# Adds links to Python standard library and cryptography documentation.
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "cryptography": ("https://cryptography.io/en/latest/", None),
+}
+
+autodoc_default_options = {
+    "no-value": True,  # Hide enum values
 }
 
 # -- Options for HTML output -------------------------------------------------

@@ -35,11 +35,17 @@ class ExtendedKeyUsage(Enum):
     """Extended key usages are used with :meth:`Credential.ext_key_usages` to specify the extended key usages for the certificate."""
 
     SERVER_AUTH = ExtendedKeyUsageOID.SERVER_AUTH
+    """Certificate can be used as TLS server certificate."""
     CLIENT_AUTH = ExtendedKeyUsageOID.CLIENT_AUTH
+    """Certificate can be used as TLS client certificate."""
     CODE_SIGNING = ExtendedKeyUsageOID.CODE_SIGNING
+    """Certificate can be used for code signing."""
     EMAIL_PROTECTION = ExtendedKeyUsageOID.EMAIL_PROTECTION
+    """Certificate can be used for email protection (signing, encryption, key agreement)."""
     TIME_STAMPING = ExtendedKeyUsageOID.TIME_STAMPING
+    """Certificate can be used to bind the hash of an object to a time from a trusted time source."""
     OCSP_SIGNING = ExtendedKeyUsageOID.OCSP_SIGNING
+    """Private key associated to certificate can be used to sign OCSP response."""
 
 
 class Credential(object):
@@ -85,10 +91,10 @@ class Credential(object):
     def ca(self, ca: bool = True) -> Credential:
         """Set whether this credential is a CA or not.
 
-        If CA is set to ``True``, the key usage ``KeyUsage.KEY_CERT_SIGN`` and ``KeyUsage.CRL_SIGN`` are set
-        to the certificate, and the basic constraints extension is included with ``ca`` field set to ``True``.
+        If CA is set to :const:`True`, the key usage :const:`KeyUsage.KEY_CERT_SIGN` and :const:`KeyUsage.CRL_SIGN` are set
+        to the certificate, and the basic constraints extension is included with ``ca`` field set to :const:`True``.
 
-        If not called, ``True`` is used for credentials that are self-signed, ``False`` for credentials that are not.
+        If not called, :const:`True` is used for credentials that are self-signed, :const:`False` for credentials that are not.
 
         :param ca: Whether this credential is a CA or not.
         :type ca: bool
@@ -149,9 +155,9 @@ class Credential(object):
     def key_type(self, key_type: KeyType) -> Credential:
         """Set the key type of this credential.
 
-        If not called, the key type will be :data:`KeyType.EC`.
+        If not called, the key type will be :const:`KeyType.EC`.
 
-        :param key_type: The key type of this credential. Must be :data:`KeyType.EC` or :data:`KeyType.RSA`.
+        :param key_type: The key type of this credential. Must be :const:`KeyType.EC` or :const:`KeyType.RSA`.
         :type key_type: KeyType
         :return: This credential instance.
         :rtype: Credential
@@ -164,7 +170,7 @@ class Credential(object):
     def key_size(self, key_size: int) -> Credential:
         """Set the key size of this credential.
 
-        If not called, the key size is ``256`` for :data:`KeyType.EC` and ``2048`` for :data:`KeyType.RSA`.
+        If not called, the key size is ``256`` for :const:`KeyType.EC` and ``2048`` for :const:`KeyType.RSA`.
 
         :param key_size: The key size of this credential. Valid values depend on the key type.
             For EC keys, valid values are 256, 384, and 521.
@@ -248,11 +254,11 @@ class Credential(object):
     def key_usages(self, *key_usages: KeyUsage) -> Credential:
         """Set the key usages of this credential.
 
-        If not called, the key usages ``KeyUsage.DIGITAL_SIGNATURE`` and ``KeyUsage.KEY_ENCIPHERMENT`` are set
-        to end-entity certificates (:meth:`ca` is not ``False``), and ``KeyUsage.KEY_CERT_SIGN`` and
-        ``KeyUsage.CRL_SIGN`` are set to CA certificates (:meth:`ca` is ``True``).
+        If not called, the key usages :const:`KeyUsage.DIGITAL_SIGNATURE` and :const:`KeyUsage.KEY_ENCIPHERMENT` are set
+        to end-entity certificates (:meth:`ca` is not :const:`False`), and :const:`KeyUsage.KEY_CERT_SIGN` and
+        :const:`KeyUsage.CRL_SIGN` are set to CA certificates (:meth:`ca` is :const:`True`).
 
-        :param key_usages: The key usages of this credential. One or more of :data:`certy.KeyUsage`.
+        :param key_usages: The key usages of this credential. One or more of :const:`KeyUsage`.
         :type key_usages: tuple[certy.KeyUsage]
         :return: This credential instance.
         :rtype: Credential
@@ -268,7 +274,7 @@ class Credential(object):
 
         If not called, extended key usages extension is not be included in the certificate.
 
-        :param ext_key_usages: The extended key usages of this credential. One or more of certy.ExtendedKeyUsage.
+        :param ext_key_usages: The extended key usages of this credential. One or more of :const:`ExtendedKeyUsage`.
         :type ext_key_usages: tuple[ExtendedKeyUsage]
         :return: This credential instance.
         :rtype: Credential
@@ -455,12 +461,12 @@ class Credential(object):
         return self._private_key  # type: ignore
 
     def get_private_key_as_pem(self, password: str | None = None) -> bytes:
-        """Get the private key in PKCS8 PEM format.
+        """Get the private key in PKCS#8 PEM format.
 
         If the private key has not been generated yet by calling :meth:`generate`, it is generated automatically.
 
         :param password: The password to encrypt the private key with. If not set, the private key is not encrypted.
-        :return: The private key in PKCS8 PEM format.
+        :return: The private key in PKCS#8 PEM format.
         :rtype: bytes
         """
         self._ensure_generated()
@@ -511,7 +517,7 @@ class Credential(object):
     def write_private_key_as_pem(
         self, path: str, password: str | None = None
     ) -> Credential:
-        """Write the private key in PKCS8 PEM format to a file.
+        """Write the private key in PKCS#8 PEM format to a file.
 
         If the private key has not been generated yet by calling :meth:`generate`, it is generated automatically.
 
