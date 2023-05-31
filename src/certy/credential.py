@@ -14,7 +14,9 @@ class KeyType(Enum):
     """Key types are used with :meth:`Credential.key_type` to specify the type of key to generate."""
 
     EC = 1
+    """Elliptic curve key (default)."""
     RSA = 2
+    """RSA key."""
 
 
 class KeyUsage(Enum):
@@ -255,7 +257,7 @@ class Credential(object):
         """Set the key usages of this credential.
 
         If not called, the key usages :const:`KeyUsage.DIGITAL_SIGNATURE` and :const:`KeyUsage.KEY_ENCIPHERMENT` are set
-        to end-entity certificates (:meth:`ca` is not :const:`False`), and :const:`KeyUsage.KEY_CERT_SIGN` and
+        to end-entity certificates (:meth:`ca` is :const:`False`), and :const:`KeyUsage.KEY_CERT_SIGN` and
         :const:`KeyUsage.CRL_SIGN` are set to CA certificates (:meth:`ca` is :const:`True`).
 
         :param key_usages: The key usages of this credential. One or more of :const:`KeyUsage`.

@@ -27,10 +27,10 @@ Following example creates a CA certificate, a server certificate signed by the C
 .. literalinclude:: ../examples/write-ca-and-server-cert.py
    :linenos:
 
-Given defaults are OK for typical use, which makes simple use very simple:
+Given defaults are typically OK, which makes simple use very simple:
 
 * CA certificate will automatically include basic constrains extension with CA field set. It is recognized as CA, because ``ca.issuer()`` was not called.
-* Server certificate is recognized as end-entity certificate, since it was signed by the CA - ``server.issuer(ca)`` was called.
+* Server certificate is recognized as end-entity certificate, since it is signed by the CA - ``server.issuer(ca)`` was called.
 * Key usage is set according to the certificate type: CA certificates are allowed to sign other certificates, end-entity certificates are allowed to be used for TLS server and client authentication.
 * The ``validFrom`` and ``validTo`` fields are set to current time and one year in the future, respectively.
 * ``EC`` key type of 256 bits is used.
@@ -58,8 +58,8 @@ API Reference
    :undoc-members:
 
 
-Bugs reports, feature requests and other contributions
-======================================================
+Contact information
+===================
 
 Please use the `github`_ project for reporting bugs, requesting features and submitting pull requests.
 

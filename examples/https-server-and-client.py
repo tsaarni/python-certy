@@ -44,7 +44,7 @@ server_cred = (
 )
 
 # Create a client certificate, issued by the server root CA.
-client_cred = Credential().subject("CN=joe").issuer(client_root_ca_cred)
+client_cred = Credential().subject("CN=client").issuer(client_root_ca_cred)
 
 # Write the certificates and keys to disk.
 server_root_ca_cred.write_certificates_as_pem("server-root-ca.pem")
