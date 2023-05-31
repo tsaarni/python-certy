@@ -103,7 +103,7 @@
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bugs-reports-feature-requests-and-other-contributions">Bugs reports, feature requests and other contributions</a></li>
+<li><a class="reference internal" href="#contact-information">Contact information</a></li>
 </ul>
 </div>
         </div>
@@ -158,10 +158,10 @@ No more storing test certificates and private keys in the repository!</p>
 <span class="linenos">8</span><span class="n">cred</span><span class="o">.</span><span class="n">write_private_key_as_pem</span><span class="p">(</span><span class="s2">&quot;key.pem&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Given defaults are OK for typical use, which makes simple use very simple:</p>
+<p>Given defaults are typically OK, which makes simple use very simple:</p>
 <ul class="simple">
 <li><p>CA certificate will automatically include basic constrains extension with CA field set. It is recognized as CA, because <code class="docutils literal notranslate"><span class="pre">ca.issuer()</span></code> was not called.</p></li>
-<li><p>Server certificate is recognized as end-entity certificate, since it was signed by the CA - <code class="docutils literal notranslate"><span class="pre">server.issuer(ca)</span></code> was called.</p></li>
+<li><p>Server certificate is recognized as end-entity certificate, since it is signed by the CA - <code class="docutils literal notranslate"><span class="pre">server.issuer(ca)</span></code> was called.</p></li>
 <li><p>Key usage is set according to the certificate type: CA certificates are allowed to sign other certificates, end-entity certificates are allowed to be used for TLS server and client authentication.</p></li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">validFrom</span></code> and <code class="docutils literal notranslate"><span class="pre">validTo</span></code> fields are set to current time and one year in the future, respectively.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">EC</span></code> key type of 256 bits is used.</p></li>
@@ -223,7 +223,7 @@ The client also validates that the server hostname matches the certificate subje
 <span class="linenos">44</span><span class="p">)</span>
 <span class="linenos">45</span>
 <span class="linenos">46</span><span class="c1"># Create a client certificate, issued by the server root CA.</span>
-<span class="linenos">47</span><span class="n">client_cred</span> <span class="o">=</span> <span class="n">Credential</span><span class="p">()</span><span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=joe&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">issuer</span><span class="p">(</span><span class="n">client_root_ca_cred</span><span class="p">)</span>
+<span class="linenos">47</span><span class="n">client_cred</span> <span class="o">=</span> <span class="n">Credential</span><span class="p">()</span><span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=client&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">issuer</span><span class="p">(</span><span class="n">client_root_ca_cred</span><span class="p">)</span>
 <span class="linenos">48</span>
 <span class="linenos">49</span><span class="c1"># Write the certificates and keys to disk.</span>
 <span class="linenos">50</span><span class="n">server_root_ca_cred</span><span class="o">.</span><span class="n">write_certificates_as_pem</span><span class="p">(</span><span class="s2">&quot;server-root-ca.pem&quot;</span><span class="p">)</span>
@@ -495,7 +495,7 @@ For RSA keys, valid values are 1024, 2048, and 4096.</p>
 <span class="sig-name descname"><span class="pre">key_usages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">key_usages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#certy.KeyUsage" title="certy.credential.KeyUsage"><span class="pre">KeyUsage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.key_usages" title="Permalink to this definition"></a></dt>
 <dd><p>Set the key usages of this credential.</p>
 <p>If not called, the key usages <a class="reference internal" href="#certy.KeyUsage.DIGITAL_SIGNATURE" title="certy.KeyUsage.DIGITAL_SIGNATURE"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyUsage.DIGITAL_SIGNATURE</span></code></a> and <a class="reference internal" href="#certy.KeyUsage.KEY_ENCIPHERMENT" title="certy.KeyUsage.KEY_ENCIPHERMENT"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyUsage.KEY_ENCIPHERMENT</span></code></a> are set
-to end-entity certificates (<a class="reference internal" href="#certy.Credential.ca" title="certy.Credential.ca"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ca()</span></code></a> is not <code class="xref py py-const docutils literal notranslate"><span class="pre">False</span></code>), and <a class="reference internal" href="#certy.KeyUsage.KEY_CERT_SIGN" title="certy.KeyUsage.KEY_CERT_SIGN"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyUsage.KEY_CERT_SIGN</span></code></a> and
+to end-entity certificates (<a class="reference internal" href="#certy.Credential.ca" title="certy.Credential.ca"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ca()</span></code></a> is <code class="xref py py-const docutils literal notranslate"><span class="pre">False</span></code>), and <a class="reference internal" href="#certy.KeyUsage.KEY_CERT_SIGN" title="certy.KeyUsage.KEY_CERT_SIGN"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyUsage.KEY_CERT_SIGN</span></code></a> and
 <a class="reference internal" href="#certy.KeyUsage.CRL_SIGN" title="certy.KeyUsage.CRL_SIGN"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyUsage.CRL_SIGN</span></code></a> are set to CA certificates (<a class="reference internal" href="#certy.Credential.ca" title="certy.Credential.ca"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ca()</span></code></a> is <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -714,12 +714,14 @@ The PEM bundle includes the certificate itself and its issuers, but not the root
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.KeyType.EC">
 <span class="sig-name descname"><span class="pre">EC</span></span><a class="headerlink" href="#certy.KeyType.EC" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Elliptic curve key (default).</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.KeyType.RSA">
 <span class="sig-name descname"><span class="pre">RSA</span></span><a class="headerlink" href="#certy.KeyType.RSA" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>RSA key.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -775,8 +777,8 @@ The PEM bundle includes the certificate itself and its issuers, but not the root
 </dd></dl>
 
 </section>
-<section id="bugs-reports-feature-requests-and-other-contributions">
-<h1>Bugs reports, feature requests and other contributions<a class="headerlink" href="#bugs-reports-feature-requests-and-other-contributions" title="Permalink to this heading"></a></h1>
+<section id="contact-information">
+<h1>Contact information<a class="headerlink" href="#contact-information" title="Permalink to this heading"></a></h1>
 <p>Please use the <a class="reference external" href="https://github.com/tsaarni/python-certy">github</a> project for reporting bugs, requesting features and submitting pull requests.</p>
 </section>
 
