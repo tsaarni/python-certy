@@ -479,18 +479,21 @@ class Credential(object):
             encryption_algorithm=encryption_algorithm,
         )
 
-    def write_certificate_as_pem(self, path: str) -> None:
+    def write_certificate_as_pem(self, path: str) -> Credential:
         """Write the certificate in PEM format to a file.
 
         If the certificate has not been generated yet by calling :meth:`generate`, it is generated automatically.
 
         :param path: The path to the file.
         :type path: str
+        :return: This credential instance.
+        :rtype: Credential
         """
         with open(path, "wb") as f:
             f.write(self.get_certificate_as_pem())
+        return self
 
-    def write_certificates_as_pem(self, path: str) -> None:
+    def write_certificates_as_pem(self, path: str) -> Credential:
         """Write the certificate chain in PEM format to a file.
         The PEM bundle includes the certificate itself and its issuers, but not the root CA.
 
@@ -498,11 +501,16 @@ class Credential(object):
 
         :param path: The path to the file.
         :type path: str
+        :return: This credential instance.
+        :rtype: Credential
         """
         with open(path, "wb") as f:
             f.write(self.get_certificates_as_pem())
+        return self
 
-    def write_private_key_as_pem(self, path: str, password: str | None = None) -> None:
+    def write_private_key_as_pem(
+        self, path: str, password: str | None = None
+    ) -> Credential:
         """Write the private key in PKCS8 PEM format to a file.
 
         If the private key has not been generated yet by calling :meth:`generate`, it is generated automatically.
@@ -511,9 +519,12 @@ class Credential(object):
         :type path: str
         :param password: The password to encrypt the private key with. If not set, the private key is not encrypted.
         :type password: str | None
+        :return: This credential instance.
+        :rtype: Credential
         """
         with open(path, "wb") as f:
             f.write(self.get_private_key_as_pem(password))
+        return self
 
     # Helper methods
 
