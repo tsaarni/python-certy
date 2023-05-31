@@ -45,8 +45,8 @@
 <li><a class="reference internal" href="#">Welcome to certy’s documentation!</a></li>
 <li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#examples">Examples</a><ul>
-<li><a class="reference internal" href="#write-certificates-to-files">Write certificates to files</a></li>
-<li><a class="reference internal" href="#https-server-and-client">HTTPS server and client</a></li>
+<li><a class="reference internal" href="#basics-issuing-certificates">Basics: issuing certificates</a></li>
+<li><a class="reference internal" href="#complete-example-https-server-and-client">Complete example: HTTPS server and client</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-certy">API Reference</a><ul>
@@ -103,7 +103,7 @@
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bugs-feature-requests-and-other-contributions">Bugs, feature requests and other contributions</a></li>
+<li><a class="reference internal" href="#bugs-reports-feature-requests-and-other-contributions">Bugs reports, feature requests and other contributions</a></li>
 </ul>
 </div>
         </div>
@@ -145,34 +145,37 @@ No more storing test certificates and private keys in the repository!</p>
 </section>
 <section id="examples">
 <h1>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h1>
-<section id="write-certificates-to-files">
-<h2>Write certificates to files<a class="headerlink" href="#write-certificates-to-files" title="Permalink to this heading"></a></h2>
-<p>Following example creates a CA certificate and a server certificate signed by the CA.
-The server certificate is valid for host <code class="docutils literal notranslate"><span class="pre">app.127.0.0.1.nip.io</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">certy</span> <span class="kn">import</span> <span class="n">Credential</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="n">ca</span> <span class="o">=</span> <span class="n">Credential</span><span class="p">()</span><span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=ca&quot;</span><span class="p">)</span>
-<span class="linenos"> 4</span><span class="n">ca</span><span class="o">.</span><span class="n">write_certificates_as_pem</span><span class="p">(</span><span class="s2">&quot;ca.pem&quot;</span><span class="p">)</span>
-<span class="linenos"> 5</span>
-<span class="linenos"> 6</span><span class="n">cred</span> <span class="o">=</span> <span class="p">(</span>
-<span class="linenos"> 7</span>    <span class="n">Credential</span><span class="p">()</span>
-<span class="linenos"> 8</span>    <span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=server&quot;</span><span class="p">)</span>
-<span class="linenos"> 9</span>    <span class="o">.</span><span class="n">issuer</span><span class="p">(</span><span class="n">ca</span><span class="p">)</span>
-<span class="linenos">10</span>    <span class="o">.</span><span class="n">subject_alt_names</span><span class="p">(</span><span class="s2">&quot;DNS:app.127.0.0.1.nip.io&quot;</span><span class="p">)</span>
-<span class="linenos">11</span><span class="p">)</span>
-<span class="linenos">12</span><span class="n">cred</span><span class="o">.</span><span class="n">write_certificates_as_pem</span><span class="p">(</span><span class="s2">&quot;cert.pem&quot;</span><span class="p">)</span>
-<span class="linenos">13</span><span class="n">cred</span><span class="o">.</span><span class="n">write_private_key_as_pem</span><span class="p">(</span><span class="s2">&quot;key.pem&quot;</span><span class="p">)</span>
+<section id="basics-issuing-certificates">
+<h2>Basics: issuing certificates<a class="headerlink" href="#basics-issuing-certificates" title="Permalink to this heading"></a></h2>
+<p>Following example creates a CA certificate, a server certificate signed by the CA and writes them to files.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span> <span class="nn">certy</span> <span class="kn">import</span> <span class="n">Credential</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="n">ca</span> <span class="o">=</span> <span class="n">Credential</span><span class="p">()</span><span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=ca&quot;</span><span class="p">)</span>
+<span class="linenos">4</span><span class="n">ca</span><span class="o">.</span><span class="n">write_certificates_as_pem</span><span class="p">(</span><span class="s2">&quot;ca.pem&quot;</span><span class="p">)</span>
+<span class="linenos">5</span>
+<span class="linenos">6</span><span class="n">cred</span> <span class="o">=</span> <span class="n">Credential</span><span class="p">()</span><span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=server&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">issuer</span><span class="p">(</span><span class="n">ca</span><span class="p">)</span>
+<span class="linenos">7</span><span class="n">cred</span><span class="o">.</span><span class="n">write_certificates_as_pem</span><span class="p">(</span><span class="s2">&quot;cert.pem&quot;</span><span class="p">)</span>
+<span class="linenos">8</span><span class="n">cred</span><span class="o">.</span><span class="n">write_private_key_as_pem</span><span class="p">(</span><span class="s2">&quot;key.pem&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Given defaults are OK for typical use, which makes simple use very simple:</p>
+<ul class="simple">
+<li><p>CA certificate will automatically include basic constrains extension with CA field set. It is recognized as CA, because <code class="docutils literal notranslate"><span class="pre">ca.issuer()</span></code> was not called.</p></li>
+<li><p>Server certificate is recognized as end-entity certificate, since it was signed by the CA - <code class="docutils literal notranslate"><span class="pre">server.issuer(ca)</span></code> was called.</p></li>
+<li><p>Key usage is set according to the certificate type: CA certificates are allowed to sign other certificates, end-entity certificates are allowed to be used for TLS server and client authentication.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">validFrom</span></code> and <code class="docutils literal notranslate"><span class="pre">validTo</span></code> fields are set to current time and one year in the future, respectively.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EC</span></code> key type of 256 bits is used.</p></li>
+<li><p>Serial number is randomly generated.</p></li>
+</ul>
 </section>
-<section id="https-server-and-client">
-<h2>HTTPS server and client<a class="headerlink" href="#https-server-and-client" title="Permalink to this heading"></a></h2>
+<section id="complete-example-https-server-and-client">
+<h2>Complete example: HTTPS server and client<a class="headerlink" href="#complete-example-https-server-and-client" title="Permalink to this heading"></a></h2>
 <p>Following example creates two PKI hierarchies:</p>
 <ul class="simple">
 <li><p>The server PKI hierarchy contains a root CA and intermediate CA. The server certificate is signed by the intermediate.</p></li>
 <li><p>The client PKI hierarchy contains just a root CA, which is used to sign the client certificate.</p></li>
 </ul>
-<p>The server validates the client certificate against the client root CA and the client validates the server certificate against the server root CA.
+<p>The HTTP server validates the client certificate against the client root CA and the client validates the server certificate against the server root CA.
 The client also validates that the server hostname matches the certificate subject alternative name <code class="docutils literal notranslate"><span class="pre">app.127.0.0.1.nip.io</span></code> since that hostname is used to connect to the server.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">os</span>
 <span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">ssl</span>
@@ -186,7 +189,7 @@ The client also validates that the server hostname matches the certificate subje
 <span class="linenos">10</span>
 <span class="linenos">11</span><span class="k">def</span> <span class="nf">serve_https</span><span class="p">(</span><span class="n">server_cert_path</span><span class="p">,</span> <span class="n">server_key_path</span><span class="p">,</span> <span class="n">client_root_ca_path</span><span class="p">):</span>
 <span class="linenos">12</span>    <span class="c1"># Create SSLContext for the server.</span>
-<span class="linenos">13</span>    <span class="c1"># Require client certificate signed by the client root CA.</span>
+<span class="linenos">13</span>    <span class="c1"># Require client to present certificate, signed by the client root CA.</span>
 <span class="linenos">14</span>    <span class="n">context</span> <span class="o">=</span> <span class="n">ssl</span><span class="o">.</span><span class="n">create_default_context</span><span class="p">(</span>
 <span class="linenos">15</span>        <span class="n">ssl</span><span class="o">.</span><span class="n">Purpose</span><span class="o">.</span><span class="n">CLIENT_AUTH</span><span class="p">,</span> <span class="n">cafile</span><span class="o">=</span><span class="n">client_root_ca_path</span>
 <span class="linenos">16</span>    <span class="p">)</span>
@@ -202,52 +205,56 @@ The client also validates that the server hostname matches the certificate subje
 <span class="linenos">26</span>
 <span class="linenos">27</span><span class="c1"># Create root CA and intermediate CA for issuing server certificate.</span>
 <span class="linenos">28</span><span class="n">server_root_ca_cred</span> <span class="o">=</span> <span class="n">Credential</span><span class="p">()</span><span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=server-root-ca&quot;</span><span class="p">)</span>
-<span class="linenos">29</span><span class="n">server_intermediate_ca_cred</span> <span class="o">=</span> <span class="p">(</span>
-<span class="linenos">30</span>    <span class="n">Credential</span><span class="p">()</span><span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=server-intermediate-ca&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">issuer</span><span class="p">(</span><span class="n">server_root_ca_cred</span><span class="p">)</span><span class="o">.</span><span class="n">ca</span><span class="p">()</span>
-<span class="linenos">31</span><span class="p">)</span>
-<span class="linenos">32</span>
-<span class="linenos">33</span><span class="c1"># Create root CA for issuing client certificate.</span>
-<span class="linenos">34</span><span class="n">client_root_ca_cred</span> <span class="o">=</span> <span class="n">Credential</span><span class="p">()</span><span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=client-root-ca&quot;</span><span class="p">)</span>
-<span class="linenos">35</span>
-<span class="linenos">36</span><span class="c1"># Create a server certificate, issued by the intermediate server CA.</span>
-<span class="linenos">37</span><span class="n">server_cred</span> <span class="o">=</span> <span class="p">(</span>
-<span class="linenos">38</span>    <span class="n">Credential</span><span class="p">()</span>
-<span class="linenos">39</span>    <span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=localhost&quot;</span><span class="p">)</span>
-<span class="linenos">40</span>    <span class="o">.</span><span class="n">subject_alt_names</span><span class="p">(</span><span class="s2">&quot;DNS:app.127.0.0.1.nip.io&quot;</span><span class="p">)</span>
-<span class="linenos">41</span>    <span class="o">.</span><span class="n">issuer</span><span class="p">(</span><span class="n">server_intermediate_ca_cred</span><span class="p">)</span>
-<span class="linenos">42</span><span class="p">)</span>
-<span class="linenos">43</span>
-<span class="linenos">44</span><span class="c1"># Create a client certificate, issued by the server root CA.</span>
-<span class="linenos">45</span><span class="n">client_cred</span> <span class="o">=</span> <span class="n">Credential</span><span class="p">()</span><span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=joe&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">issuer</span><span class="p">(</span><span class="n">client_root_ca_cred</span><span class="p">)</span>
-<span class="linenos">46</span>
-<span class="linenos">47</span><span class="c1"># Write the certificates and keys to disk.</span>
-<span class="linenos">48</span><span class="n">server_root_ca_cred</span><span class="o">.</span><span class="n">write_certificates_as_pem</span><span class="p">(</span><span class="s2">&quot;server-root-ca.pem&quot;</span><span class="p">)</span>
-<span class="linenos">49</span><span class="n">server_cred</span><span class="o">.</span><span class="n">write_certificates_as_pem</span><span class="p">(</span><span class="s2">&quot;server.pem&quot;</span><span class="p">)</span>
-<span class="linenos">50</span><span class="n">server_cred</span><span class="o">.</span><span class="n">write_private_key_as_pem</span><span class="p">(</span><span class="s2">&quot;server-key.pem&quot;</span><span class="p">)</span>
-<span class="linenos">51</span><span class="n">client_root_ca_cred</span><span class="o">.</span><span class="n">write_certificates_as_pem</span><span class="p">(</span><span class="s2">&quot;client-root-ca.pem&quot;</span><span class="p">)</span>
-<span class="linenos">52</span><span class="n">client_cred</span><span class="o">.</span><span class="n">write_certificates_as_pem</span><span class="p">(</span><span class="s2">&quot;client.pem&quot;</span><span class="p">)</span>
-<span class="linenos">53</span><span class="n">client_cred</span><span class="o">.</span><span class="n">write_private_key_as_pem</span><span class="p">(</span><span class="s2">&quot;client-key.pem&quot;</span><span class="p">)</span>
-<span class="linenos">54</span>
-<span class="linenos">55</span><span class="c1"># Start a HTTPS server in a separate thread.</span>
-<span class="linenos">56</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span>
-<span class="linenos">57</span>    <span class="n">target</span><span class="o">=</span><span class="n">serve_https</span><span class="p">,</span>
-<span class="linenos">58</span>    <span class="n">args</span><span class="o">=</span><span class="p">(</span>
-<span class="linenos">59</span>        <span class="s2">&quot;server.pem&quot;</span><span class="p">,</span>  <span class="c1"># server_cert_path</span>
-<span class="linenos">60</span>        <span class="s2">&quot;server-key.pem&quot;</span><span class="p">,</span>  <span class="c1"># server_key_path</span>
-<span class="linenos">61</span>        <span class="s2">&quot;client-root-ca.pem&quot;</span><span class="p">,</span>  <span class="c1"># client_root_ca_path</span>
-<span class="linenos">62</span>    <span class="p">),</span>
-<span class="linenos">63</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-<span class="linenos">64</span>
-<span class="linenos">65</span><span class="c1"># Make a request to the HTTPS server.</span>
-<span class="linenos">66</span><span class="c1"># Use the client certificate and key for mutual TLS authentication.</span>
-<span class="linenos">67</span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-<span class="linenos">68</span>    <span class="s2">&quot;https://app.127.0.0.1.nip.io:8443&quot;</span><span class="p">,</span>
-<span class="linenos">69</span>    <span class="n">verify</span><span class="o">=</span><span class="s2">&quot;server-root-ca.pem&quot;</span><span class="p">,</span>
-<span class="linenos">70</span>    <span class="n">cert</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;client.pem&quot;</span><span class="p">,</span> <span class="s2">&quot;client-key.pem&quot;</span><span class="p">),</span>
-<span class="linenos">71</span><span class="p">)</span>
-<span class="linenos">72</span>
-<span class="linenos">73</span><span class="c1"># Print the response.</span>
-<span class="linenos">74</span><span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+<span class="linenos">29</span><span class="c1"># Certy does not recognize intermediate CA as CA since it is not self-signed.</span>
+<span class="linenos">30</span><span class="c1"># ca() needs to be called explicitly to prepare the certificate as CA cert.</span>
+<span class="linenos">31</span><span class="n">server_intermediate_ca_cred</span> <span class="o">=</span> <span class="p">(</span>
+<span class="linenos">32</span>    <span class="n">Credential</span><span class="p">()</span><span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=server-intermediate-ca&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">issuer</span><span class="p">(</span><span class="n">server_root_ca_cred</span><span class="p">)</span><span class="o">.</span><span class="n">ca</span><span class="p">()</span>
+<span class="linenos">33</span><span class="p">)</span>
+<span class="linenos">34</span>
+<span class="linenos">35</span><span class="c1"># Create root CA for issuing client certificate.</span>
+<span class="linenos">36</span><span class="n">client_root_ca_cred</span> <span class="o">=</span> <span class="n">Credential</span><span class="p">()</span><span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=client-root-ca&quot;</span><span class="p">)</span>
+<span class="linenos">37</span>
+<span class="linenos">38</span><span class="c1"># Create a server certificate, issued by the intermediate server CA.</span>
+<span class="linenos">39</span><span class="n">server_cred</span> <span class="o">=</span> <span class="p">(</span>
+<span class="linenos">40</span>    <span class="n">Credential</span><span class="p">()</span>
+<span class="linenos">41</span>    <span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=localhost&quot;</span><span class="p">)</span>
+<span class="linenos">42</span>    <span class="o">.</span><span class="n">subject_alt_names</span><span class="p">(</span><span class="s2">&quot;DNS:app.127.0.0.1.nip.io&quot;</span><span class="p">)</span>
+<span class="linenos">43</span>    <span class="o">.</span><span class="n">issuer</span><span class="p">(</span><span class="n">server_intermediate_ca_cred</span><span class="p">)</span>
+<span class="linenos">44</span><span class="p">)</span>
+<span class="linenos">45</span>
+<span class="linenos">46</span><span class="c1"># Create a client certificate, issued by the server root CA.</span>
+<span class="linenos">47</span><span class="n">client_cred</span> <span class="o">=</span> <span class="n">Credential</span><span class="p">()</span><span class="o">.</span><span class="n">subject</span><span class="p">(</span><span class="s2">&quot;CN=joe&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">issuer</span><span class="p">(</span><span class="n">client_root_ca_cred</span><span class="p">)</span>
+<span class="linenos">48</span>
+<span class="linenos">49</span><span class="c1"># Write the certificates and keys to disk.</span>
+<span class="linenos">50</span><span class="n">server_root_ca_cred</span><span class="o">.</span><span class="n">write_certificates_as_pem</span><span class="p">(</span><span class="s2">&quot;server-root-ca.pem&quot;</span><span class="p">)</span>
+<span class="linenos">51</span><span class="n">server_cred</span><span class="o">.</span><span class="n">write_certificates_as_pem</span><span class="p">(</span>
+<span class="linenos">52</span>    <span class="s2">&quot;server.pem&quot;</span>
+<span class="linenos">53</span><span class="p">)</span>  <span class="c1"># server.pem bundle includes chain: server cert, intermediate CA (in that order).</span>
+<span class="linenos">54</span><span class="n">server_cred</span><span class="o">.</span><span class="n">write_private_key_as_pem</span><span class="p">(</span><span class="s2">&quot;server-key.pem&quot;</span><span class="p">)</span>
+<span class="linenos">55</span><span class="n">client_root_ca_cred</span><span class="o">.</span><span class="n">write_certificates_as_pem</span><span class="p">(</span><span class="s2">&quot;client-root-ca.pem&quot;</span><span class="p">)</span>
+<span class="linenos">56</span><span class="n">client_cred</span><span class="o">.</span><span class="n">write_certificates_as_pem</span><span class="p">(</span><span class="s2">&quot;client.pem&quot;</span><span class="p">)</span>
+<span class="linenos">57</span><span class="n">client_cred</span><span class="o">.</span><span class="n">write_private_key_as_pem</span><span class="p">(</span><span class="s2">&quot;client-key.pem&quot;</span><span class="p">)</span>
+<span class="linenos">58</span>
+<span class="linenos">59</span><span class="c1"># Start a HTTPS server in a separate thread.</span>
+<span class="linenos">60</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span>
+<span class="linenos">61</span>    <span class="n">target</span><span class="o">=</span><span class="n">serve_https</span><span class="p">,</span>
+<span class="linenos">62</span>    <span class="n">args</span><span class="o">=</span><span class="p">(</span>
+<span class="linenos">63</span>        <span class="s2">&quot;server.pem&quot;</span><span class="p">,</span>  <span class="c1"># server_cert_path</span>
+<span class="linenos">64</span>        <span class="s2">&quot;server-key.pem&quot;</span><span class="p">,</span>  <span class="c1"># server_key_path</span>
+<span class="linenos">65</span>        <span class="s2">&quot;client-root-ca.pem&quot;</span><span class="p">,</span>  <span class="c1"># client_root_ca_path</span>
+<span class="linenos">66</span>    <span class="p">),</span>
+<span class="linenos">67</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="linenos">68</span>
+<span class="linenos">69</span><span class="c1"># Make a request to the HTTPS server.</span>
+<span class="linenos">70</span><span class="c1"># Use the client certificate and key for mutual TLS authentication.</span>
+<span class="linenos">71</span><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+<span class="linenos">72</span>    <span class="s2">&quot;https://app.127.0.0.1.nip.io:8443&quot;</span><span class="p">,</span>
+<span class="linenos">73</span>    <span class="n">verify</span><span class="o">=</span><span class="s2">&quot;server-root-ca.pem&quot;</span><span class="p">,</span>
+<span class="linenos">74</span>    <span class="n">cert</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;client.pem&quot;</span><span class="p">,</span> <span class="s2">&quot;client-key.pem&quot;</span><span class="p">),</span>
+<span class="linenos">75</span><span class="p">)</span>
+<span class="linenos">76</span>
+<span class="linenos">77</span><span class="c1"># Print the response.</span>
+<span class="linenos">78</span><span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -263,9 +270,9 @@ The client also validates that the server hostname matches the certificate subje
 <dt class="sig sig-object py" id="certy.Credential.ca">
 <span class="sig-name descname"><span class="pre">ca</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ca</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.ca" title="Permalink to this definition"></a></dt>
 <dd><p>Set whether this credential is a CA or not.</p>
-<p>If CA is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the key usage <code class="docutils literal notranslate"><span class="pre">KeyUsage.KEY_CERT_SIGN</span></code> and <code class="docutils literal notranslate"><span class="pre">KeyUsage.CRL_SIGN</span></code> are set
-to the certificate, and the basic constraints extension is included with <code class="docutils literal notranslate"><span class="pre">ca</span></code> field set to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
-<p>If not called, <code class="docutils literal notranslate"><span class="pre">True</span></code> is used for credentials that are self-signed, <code class="docutils literal notranslate"><span class="pre">False</span></code> for credentials that are not.</p>
+<p>If CA is set to <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>, the key usage <a class="reference internal" href="#certy.KeyUsage.KEY_CERT_SIGN" title="certy.KeyUsage.KEY_CERT_SIGN"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyUsage.KEY_CERT_SIGN</span></code></a> and <a class="reference internal" href="#certy.KeyUsage.CRL_SIGN" title="certy.KeyUsage.CRL_SIGN"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyUsage.CRL_SIGN</span></code></a> are set
+to the certificate, and the basic constraints extension is included with <code class="docutils literal notranslate"><span class="pre">ca</span></code> field set to <code class="xref py py-const docutils literal notranslate"><span class="pre">True`</span></code>.</p>
+<p>If not called, <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code> is used for credentials that are self-signed, <code class="xref py py-const docutils literal notranslate"><span class="pre">False</span></code> for credentials that are not.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>ca</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Whether this credential is a CA or not.</p>
@@ -306,7 +313,7 @@ calling <a class="reference internal" href="#certy.Credential.not_after" title="
 <p>If not called, extended key usages extension is not be included in the certificate.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ext_key_usages</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference internal" href="#certy.ExtendedKeyUsage" title="certy.ExtendedKeyUsage"><em>ExtendedKeyUsage</em></a><em>]</em>) – The extended key usages of this credential. One or more of certy.ExtendedKeyUsage.</p>
+<dd class="field-odd"><p><strong>ext_key_usages</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference internal" href="#certy.ExtendedKeyUsage" title="certy.ExtendedKeyUsage"><em>ExtendedKeyUsage</em></a><em>]</em>) – The extended key usages of this credential. One or more of <a class="reference internal" href="#certy.ExtendedKeyUsage" title="certy.ExtendedKeyUsage"><code class="xref py py-const docutils literal notranslate"><span class="pre">ExtendedKeyUsage</span></code></a>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>This credential instance.</p>
@@ -412,14 +419,14 @@ The PEM bundle includes the certificate itself and its issuers, but not the root
 <dl class="py method">
 <dt class="sig sig-object py" id="certy.Credential.get_private_key_as_pem">
 <span class="sig-name descname"><span class="pre">get_private_key_as_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.11)"><span class="pre">bytes</span></a></span></span><a class="headerlink" href="#certy.Credential.get_private_key_as_pem" title="Permalink to this definition"></a></dt>
-<dd><p>Get the private key in PKCS8 PEM format.</p>
+<dd><p>Get the private key in PKCS#8 PEM format.</p>
 <p>If the private key has not been generated yet by calling <a class="reference internal" href="#certy.Credential.generate" title="certy.Credential.generate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">generate()</span></code></a>, it is generated automatically.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>password</strong> – The password to encrypt the private key with. If not set, the private key is not encrypted.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The private key in PKCS8 PEM format.</p>
+<dd class="field-even"><p>The private key in PKCS#8 PEM format.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.11)">bytes</a></p>
@@ -449,7 +456,7 @@ The PEM bundle includes the certificate itself and its issuers, but not the root
 <dt class="sig sig-object py" id="certy.Credential.key_size">
 <span class="sig-name descname"><span class="pre">key_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.key_size" title="Permalink to this definition"></a></dt>
 <dd><p>Set the key size of this credential.</p>
-<p>If not called, the key size is <code class="docutils literal notranslate"><span class="pre">256</span></code> for <a class="reference internal" href="#certy.KeyType.EC" title="certy.KeyType.EC"><code class="xref py py-data docutils literal notranslate"><span class="pre">KeyType.EC</span></code></a> and <code class="docutils literal notranslate"><span class="pre">2048</span></code> for <a class="reference internal" href="#certy.KeyType.RSA" title="certy.KeyType.RSA"><code class="xref py py-data docutils literal notranslate"><span class="pre">KeyType.RSA</span></code></a>.</p>
+<p>If not called, the key size is <code class="docutils literal notranslate"><span class="pre">256</span></code> for <a class="reference internal" href="#certy.KeyType.EC" title="certy.KeyType.EC"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyType.EC</span></code></a> and <code class="docutils literal notranslate"><span class="pre">2048</span></code> for <a class="reference internal" href="#certy.KeyType.RSA" title="certy.KeyType.RSA"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyType.RSA</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>key_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The key size of this credential. Valid values depend on the key type.
@@ -469,10 +476,10 @@ For RSA keys, valid values are 1024, 2048, and 4096.</p>
 <dt class="sig sig-object py" id="certy.Credential.key_type">
 <span class="sig-name descname"><span class="pre">key_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#certy.KeyType" title="certy.credential.KeyType"><span class="pre">KeyType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.key_type" title="Permalink to this definition"></a></dt>
 <dd><p>Set the key type of this credential.</p>
-<p>If not called, the key type will be <a class="reference internal" href="#certy.KeyType.EC" title="certy.KeyType.EC"><code class="xref py py-data docutils literal notranslate"><span class="pre">KeyType.EC</span></code></a>.</p>
+<p>If not called, the key type will be <a class="reference internal" href="#certy.KeyType.EC" title="certy.KeyType.EC"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyType.EC</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>key_type</strong> (<a class="reference internal" href="#certy.KeyType" title="certy.KeyType"><em>KeyType</em></a>) – The key type of this credential. Must be <a class="reference internal" href="#certy.KeyType.EC" title="certy.KeyType.EC"><code class="xref py py-data docutils literal notranslate"><span class="pre">KeyType.EC</span></code></a> or <a class="reference internal" href="#certy.KeyType.RSA" title="certy.KeyType.RSA"><code class="xref py py-data docutils literal notranslate"><span class="pre">KeyType.RSA</span></code></a>.</p>
+<dd class="field-odd"><p><strong>key_type</strong> (<a class="reference internal" href="#certy.KeyType" title="certy.KeyType"><em>KeyType</em></a>) – The key type of this credential. Must be <a class="reference internal" href="#certy.KeyType.EC" title="certy.KeyType.EC"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyType.EC</span></code></a> or <a class="reference internal" href="#certy.KeyType.RSA" title="certy.KeyType.RSA"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyType.RSA</span></code></a>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>This credential instance.</p>
@@ -487,12 +494,12 @@ For RSA keys, valid values are 1024, 2048, and 4096.</p>
 <dt class="sig sig-object py" id="certy.Credential.key_usages">
 <span class="sig-name descname"><span class="pre">key_usages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">key_usages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#certy.KeyUsage" title="certy.credential.KeyUsage"><span class="pre">KeyUsage</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.key_usages" title="Permalink to this definition"></a></dt>
 <dd><p>Set the key usages of this credential.</p>
-<p>If not called, the key usages <code class="docutils literal notranslate"><span class="pre">KeyUsage.DIGITAL_SIGNATURE</span></code> and <code class="docutils literal notranslate"><span class="pre">KeyUsage.KEY_ENCIPHERMENT</span></code> are set
-to end-entity certificates (<a class="reference internal" href="#certy.Credential.ca" title="certy.Credential.ca"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ca()</span></code></a> is not <code class="docutils literal notranslate"><span class="pre">False</span></code>), and <code class="docutils literal notranslate"><span class="pre">KeyUsage.KEY_CERT_SIGN</span></code> and
-<code class="docutils literal notranslate"><span class="pre">KeyUsage.CRL_SIGN</span></code> are set to CA certificates (<a class="reference internal" href="#certy.Credential.ca" title="certy.Credential.ca"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ca()</span></code></a> is <code class="docutils literal notranslate"><span class="pre">True</span></code>).</p>
+<p>If not called, the key usages <a class="reference internal" href="#certy.KeyUsage.DIGITAL_SIGNATURE" title="certy.KeyUsage.DIGITAL_SIGNATURE"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyUsage.DIGITAL_SIGNATURE</span></code></a> and <a class="reference internal" href="#certy.KeyUsage.KEY_ENCIPHERMENT" title="certy.KeyUsage.KEY_ENCIPHERMENT"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyUsage.KEY_ENCIPHERMENT</span></code></a> are set
+to end-entity certificates (<a class="reference internal" href="#certy.Credential.ca" title="certy.Credential.ca"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ca()</span></code></a> is not <code class="xref py py-const docutils literal notranslate"><span class="pre">False</span></code>), and <a class="reference internal" href="#certy.KeyUsage.KEY_CERT_SIGN" title="certy.KeyUsage.KEY_CERT_SIGN"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyUsage.KEY_CERT_SIGN</span></code></a> and
+<a class="reference internal" href="#certy.KeyUsage.CRL_SIGN" title="certy.KeyUsage.CRL_SIGN"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyUsage.CRL_SIGN</span></code></a> are set to CA certificates (<a class="reference internal" href="#certy.Credential.ca" title="certy.Credential.ca"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ca()</span></code></a> is <code class="xref py py-const docutils literal notranslate"><span class="pre">True</span></code>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>key_usages</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference internal" href="#certy.KeyUsage" title="certy.KeyUsage"><em>certy.KeyUsage</em></a><em>]</em>) – The key usages of this credential. One or more of <a class="reference internal" href="#certy.KeyUsage" title="certy.KeyUsage"><code class="xref py py-data docutils literal notranslate"><span class="pre">certy.KeyUsage</span></code></a>.</p>
+<dd class="field-odd"><p><strong>key_usages</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference internal" href="#certy.KeyUsage" title="certy.KeyUsage"><em>certy.KeyUsage</em></a><em>]</em>) – The key usages of this credential. One or more of <a class="reference internal" href="#certy.KeyUsage" title="certy.KeyUsage"><code class="xref py py-const docutils literal notranslate"><span class="pre">KeyUsage</span></code></a>.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>This credential instance.</p>
@@ -638,7 +645,7 @@ The PEM bundle includes the certificate itself and its issuers, but not the root
 <dl class="py method">
 <dt class="sig sig-object py" id="certy.Credential.write_private_key_as_pem">
 <span class="sig-name descname"><span class="pre">write_private_key_as_pem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#certy.Credential" title="certy.credential.Credential"><span class="pre">Credential</span></a></span></span><a class="headerlink" href="#certy.Credential.write_private_key_as_pem" title="Permalink to this definition"></a></dt>
-<dd><p>Write the private key in PKCS8 PEM format to a file.</p>
+<dd><p>Write the private key in PKCS#8 PEM format to a file.</p>
 <p>If the private key has not been generated yet by calling <a class="reference internal" href="#certy.Credential.generate" title="certy.Credential.generate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">generate()</span></code></a>, it is generated automatically.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -664,33 +671,39 @@ The PEM bundle includes the certificate itself and its issuers, but not the root
 <dd><p>Extended key usages are used with <a class="reference internal" href="#certy.Credential.ext_key_usages" title="certy.Credential.ext_key_usages"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Credential.ext_key_usages()</span></code></a> to specify the extended key usages for the certificate.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.ExtendedKeyUsage.CLIENT_AUTH">
-<span class="sig-name descname"><span class="pre">CLIENT_AUTH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ObjectIdentifier(oid=1.3.6.1.5.5.7.3.2,</span> <span class="pre">name=clientAuth)&gt;</span></em><a class="headerlink" href="#certy.ExtendedKeyUsage.CLIENT_AUTH" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">CLIENT_AUTH</span></span><a class="headerlink" href="#certy.ExtendedKeyUsage.CLIENT_AUTH" title="Permalink to this definition"></a></dt>
+<dd><p>Certificate can be used as TLS client certificate.</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.ExtendedKeyUsage.CODE_SIGNING">
-<span class="sig-name descname"><span class="pre">CODE_SIGNING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ObjectIdentifier(oid=1.3.6.1.5.5.7.3.3,</span> <span class="pre">name=codeSigning)&gt;</span></em><a class="headerlink" href="#certy.ExtendedKeyUsage.CODE_SIGNING" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">CODE_SIGNING</span></span><a class="headerlink" href="#certy.ExtendedKeyUsage.CODE_SIGNING" title="Permalink to this definition"></a></dt>
+<dd><p>Certificate can be used for code signing.</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.ExtendedKeyUsage.EMAIL_PROTECTION">
-<span class="sig-name descname"><span class="pre">EMAIL_PROTECTION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ObjectIdentifier(oid=1.3.6.1.5.5.7.3.4,</span> <span class="pre">name=emailProtection)&gt;</span></em><a class="headerlink" href="#certy.ExtendedKeyUsage.EMAIL_PROTECTION" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">EMAIL_PROTECTION</span></span><a class="headerlink" href="#certy.ExtendedKeyUsage.EMAIL_PROTECTION" title="Permalink to this definition"></a></dt>
+<dd><p>Certificate can be used for email protection (signing, encryption, key agreement).</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.ExtendedKeyUsage.OCSP_SIGNING">
-<span class="sig-name descname"><span class="pre">OCSP_SIGNING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ObjectIdentifier(oid=1.3.6.1.5.5.7.3.9,</span> <span class="pre">name=OCSPSigning)&gt;</span></em><a class="headerlink" href="#certy.ExtendedKeyUsage.OCSP_SIGNING" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">OCSP_SIGNING</span></span><a class="headerlink" href="#certy.ExtendedKeyUsage.OCSP_SIGNING" title="Permalink to this definition"></a></dt>
+<dd><p>Private key associated to certificate can be used to sign OCSP response.</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.ExtendedKeyUsage.SERVER_AUTH">
-<span class="sig-name descname"><span class="pre">SERVER_AUTH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ObjectIdentifier(oid=1.3.6.1.5.5.7.3.1,</span> <span class="pre">name=serverAuth)&gt;</span></em><a class="headerlink" href="#certy.ExtendedKeyUsage.SERVER_AUTH" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">SERVER_AUTH</span></span><a class="headerlink" href="#certy.ExtendedKeyUsage.SERVER_AUTH" title="Permalink to this definition"></a></dt>
+<dd><p>Certificate can be used as TLS server certificate.</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.ExtendedKeyUsage.TIME_STAMPING">
-<span class="sig-name descname"><span class="pre">TIME_STAMPING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ObjectIdentifier(oid=1.3.6.1.5.5.7.3.8,</span> <span class="pre">name=timeStamping)&gt;</span></em><a class="headerlink" href="#certy.ExtendedKeyUsage.TIME_STAMPING" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">TIME_STAMPING</span></span><a class="headerlink" href="#certy.ExtendedKeyUsage.TIME_STAMPING" title="Permalink to this definition"></a></dt>
+<dd><p>Certificate can be used to bind the hash of an object to a time from a trusted time source.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -700,12 +713,12 @@ The PEM bundle includes the certificate itself and its issuers, but not the root
 <dd><p>Key types are used with <a class="reference internal" href="#certy.Credential.key_type" title="certy.Credential.key_type"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Credential.key_type()</span></code></a> to specify the type of key to generate.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.KeyType.EC">
-<span class="sig-name descname"><span class="pre">EC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#certy.KeyType.EC" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">EC</span></span><a class="headerlink" href="#certy.KeyType.EC" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.KeyType.RSA">
-<span class="sig-name descname"><span class="pre">RSA</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#certy.KeyType.RSA" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">RSA</span></span><a class="headerlink" href="#certy.KeyType.RSA" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -716,54 +729,54 @@ The PEM bundle includes the certificate itself and its issuers, but not the root
 <dd><p>Key usages are used with <code class="xref py py-meth docutils literal notranslate"><span class="pre">Credential.key_usage()</span></code> to specify the key usages for the certificate.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.KeyUsage.CRL_SIGN">
-<span class="sig-name descname"><span class="pre">CRL_SIGN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'crl_sign'</span></em><a class="headerlink" href="#certy.KeyUsage.CRL_SIGN" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">CRL_SIGN</span></span><a class="headerlink" href="#certy.KeyUsage.CRL_SIGN" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.KeyUsage.DATA_ENCIPHERMENT">
-<span class="sig-name descname"><span class="pre">DATA_ENCIPHERMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'data_encipherment'</span></em><a class="headerlink" href="#certy.KeyUsage.DATA_ENCIPHERMENT" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">DATA_ENCIPHERMENT</span></span><a class="headerlink" href="#certy.KeyUsage.DATA_ENCIPHERMENT" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.KeyUsage.DECIPHER_ONLY">
-<span class="sig-name descname"><span class="pre">DECIPHER_ONLY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'decipher_only'</span></em><a class="headerlink" href="#certy.KeyUsage.DECIPHER_ONLY" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">DECIPHER_ONLY</span></span><a class="headerlink" href="#certy.KeyUsage.DECIPHER_ONLY" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.KeyUsage.DIGITAL_SIGNATURE">
-<span class="sig-name descname"><span class="pre">DIGITAL_SIGNATURE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'digital_signature'</span></em><a class="headerlink" href="#certy.KeyUsage.DIGITAL_SIGNATURE" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">DIGITAL_SIGNATURE</span></span><a class="headerlink" href="#certy.KeyUsage.DIGITAL_SIGNATURE" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.KeyUsage.ENCIPHER_ONLY">
-<span class="sig-name descname"><span class="pre">ENCIPHER_ONLY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'encipher_only'</span></em><a class="headerlink" href="#certy.KeyUsage.ENCIPHER_ONLY" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">ENCIPHER_ONLY</span></span><a class="headerlink" href="#certy.KeyUsage.ENCIPHER_ONLY" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.KeyUsage.KEY_AGREEMENT">
-<span class="sig-name descname"><span class="pre">KEY_AGREEMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'key_agreement'</span></em><a class="headerlink" href="#certy.KeyUsage.KEY_AGREEMENT" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">KEY_AGREEMENT</span></span><a class="headerlink" href="#certy.KeyUsage.KEY_AGREEMENT" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.KeyUsage.KEY_CERT_SIGN">
-<span class="sig-name descname"><span class="pre">KEY_CERT_SIGN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'key_cert_sign'</span></em><a class="headerlink" href="#certy.KeyUsage.KEY_CERT_SIGN" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">KEY_CERT_SIGN</span></span><a class="headerlink" href="#certy.KeyUsage.KEY_CERT_SIGN" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.KeyUsage.KEY_ENCIPHERMENT">
-<span class="sig-name descname"><span class="pre">KEY_ENCIPHERMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'key_encipherment'</span></em><a class="headerlink" href="#certy.KeyUsage.KEY_ENCIPHERMENT" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">KEY_ENCIPHERMENT</span></span><a class="headerlink" href="#certy.KeyUsage.KEY_ENCIPHERMENT" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="certy.KeyUsage.NON_REPUDIATION">
-<span class="sig-name descname"><span class="pre">NON_REPUDIATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'content_commitment'</span></em><a class="headerlink" href="#certy.KeyUsage.NON_REPUDIATION" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">NON_REPUDIATION</span></span><a class="headerlink" href="#certy.KeyUsage.NON_REPUDIATION" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="bugs-feature-requests-and-other-contributions">
-<h1>Bugs, feature requests and other contributions<a class="headerlink" href="#bugs-feature-requests-and-other-contributions" title="Permalink to this heading"></a></h1>
+<section id="bugs-reports-feature-requests-and-other-contributions">
+<h1>Bugs reports, feature requests and other contributions<a class="headerlink" href="#bugs-reports-feature-requests-and-other-contributions" title="Permalink to this heading"></a></h1>
 <p>Please use the <a class="reference external" href="https://github.com/tsaarni/python-certy">github</a> project for reporting bugs, requesting features and submitting pull requests.</p>
 </section>
 

@@ -19,25 +19,32 @@ Install certy from `pypi`_
 Examples
 ========
 
-Write certificates to files
----------------------------
+Basics: issuing certificates
+----------------------------
 
-Following example creates a CA certificate and a server certificate signed by the CA.
-The server certificate is valid for host ``app.127.0.0.1.nip.io``.
+Following example creates a CA certificate, a server certificate signed by the CA and writes them to files.
 
 .. literalinclude:: ../examples/write-ca-and-server-cert.py
    :linenos:
 
+Given defaults are OK for typical use, which makes simple use very simple:
 
-HTTPS server and client
------------------------
+* CA certificate will automatically include basic constrains extension with CA field set. It is recognized as CA, because ``ca.issuer()`` was not called.
+* Server certificate is recognized as end-entity certificate, since it was signed by the CA - ``server.issuer(ca)`` was called.
+* Key usage is set according to the certificate type: CA certificates are allowed to sign other certificates, end-entity certificates are allowed to be used for TLS server and client authentication.
+* The ``validFrom`` and ``validTo`` fields are set to current time and one year in the future, respectively.
+* ``EC`` key type of 256 bits is used.
+* Serial number is randomly generated.
+
+Complete example: HTTPS server and client
+-----------------------------------------
 
 Following example creates two PKI hierarchies:
 
 * The server PKI hierarchy contains a root CA and intermediate CA. The server certificate is signed by the intermediate.
 * The client PKI hierarchy contains just a root CA, which is used to sign the client certificate.
 
-The server validates the client certificate against the client root CA and the client validates the server certificate against the server root CA.
+The HTTP server validates the client certificate against the client root CA and the client validates the server certificate against the server root CA.
 The client also validates that the server hostname matches the certificate subject alternative name ``app.127.0.0.1.nip.io`` since that hostname is used to connect to the server.
 
 .. literalinclude:: ../examples/https-server-and-client.py
@@ -51,8 +58,8 @@ API Reference
    :undoc-members:
 
 
-Bugs, feature requests and other contributions
-==============================================
+Bugs reports, feature requests and other contributions
+======================================================
 
 Please use the `github`_ project for reporting bugs, requesting features and submitting pull requests.
 
