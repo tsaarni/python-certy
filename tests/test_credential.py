@@ -1,3 +1,19 @@
+#
+# Copyright Certy Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 import datetime
 import ipaddress
 from datetime import datetime, timedelta
@@ -21,17 +37,13 @@ def test_subject_alt_name():
     cert = (
         Credential()
         .subject("CN=test")
-        .subject_alt_names(
-            "DNS:host.example.com", "URI:http://www.example.com", "IP:1.2.3.4"
-        )
+        .subject_alt_names("DNS:host.example.com", "URI:http://www.example.com", "IP:1.2.3.4")
         .generate()
         .get_certificate()
     )
     assert cert.subject.rfc4514_string() == "CN=test"
     assert cert.issuer.rfc4514_string() == "CN=test"
-    assert cert.extensions.get_extension_for_class(
-        x509.SubjectAlternativeName
-    ).value == x509.SubjectAlternativeName(
+    assert cert.extensions.get_extension_for_class(x509.SubjectAlternativeName).value == x509.SubjectAlternativeName(
         [
             x509.DNSName("host.example.com"),
             x509.UniformResourceIdentifier("http://www.example.com"),
@@ -39,17 +51,11 @@ def test_subject_alt_name():
         ]
     )
 
-    # Single subject alternative name given instead of list
-    cert = (
-        Credential()
-        .subject("CN=test")
-        .subject_alt_names("DNS:host.example.com")
-        .generate()
-        .get_certificate()
+    # Single subject alternative name given instead of list.
+    cert = Credential().subject("CN=test").subject_alt_names("DNS:host.example.com").generate().get_certificate()
+    assert cert.extensions.get_extension_for_class(x509.SubjectAlternativeName).value == x509.SubjectAlternativeName(
+        [x509.DNSName("host.example.com")]
     )
-    assert cert.extensions.get_extension_for_class(
-        x509.SubjectAlternativeName
-    ).value == x509.SubjectAlternativeName([x509.DNSName("host.example.com")])
 
 
 def test_default_key_size():
@@ -69,9 +75,7 @@ def test_ec_key_sizes():
 
 
 def test_rsa_key_sizes():
-    cred = (
-        Credential().subject("CN=test").key_type(KeyType.RSA).key_size(1024).generate()
-    )
+    cred = Credential().subject("CN=test").key_type(KeyType.RSA).key_size(1024).generate()
     assert key_must_be(cred, rsa.RSAPrivateKey, 1024)
     cred.key_size(2048).generate()
     assert key_must_be(cred, rsa.RSAPrivateKey, 2048)
@@ -87,9 +91,7 @@ def test_expires():
 
 def test_key_usages():
     cert = Credential().subject("CN=joe").generate().get_certificate()
-    assert cert.extensions.get_extension_for_class(
-        x509.KeyUsage
-    ).value == x509.KeyUsage(
+    assert cert.extensions.get_extension_for_class(x509.KeyUsage).value == x509.KeyUsage(
         digital_signature=False,
         content_commitment=False,
         key_encipherment=False,
@@ -102,9 +104,7 @@ def test_key_usages():
     )
 
     cert = Credential().subject("CN=joe").ca(False).generate().get_certificate()
-    assert cert.extensions.get_extension_for_class(
-        x509.KeyUsage
-    ).value == x509.KeyUsage(
+    assert cert.extensions.get_extension_for_class(x509.KeyUsage).value == x509.KeyUsage(
         digital_signature=True,
         content_commitment=False,
         key_encipherment=True,
@@ -133,9 +133,7 @@ def test_key_usages():
         .generate()
         .get_certificate()
     )
-    assert cert.extensions.get_extension_for_class(
-        x509.KeyUsage
-    ).value == x509.KeyUsage(
+    assert cert.extensions.get_extension_for_class(x509.KeyUsage).value == x509.KeyUsage(
         digital_signature=True,
         content_commitment=True,
         key_encipherment=True,
@@ -164,9 +162,7 @@ def test_extended_key_usages():
         .get_certificate()
     )
 
-    assert cert.extensions.get_extension_for_class(
-        x509.ExtendedKeyUsage
-    ).value == x509.ExtendedKeyUsage(
+    assert cert.extensions.get_extension_for_class(x509.ExtendedKeyUsage).value == x509.ExtendedKeyUsage(
         [
             ExtendedKeyUsageOID.CLIENT_AUTH,
             ExtendedKeyUsageOID.SERVER_AUTH,
@@ -183,25 +179,15 @@ def test_issuer():
 
 def test_ca():
     cert = Credential().subject("CN=ca").generate().get_certificate()
-    assert (
-        cert.extensions.get_extension_for_class(x509.BasicConstraints).value.ca == True
-    )
+    assert cert.extensions.get_extension_for_class(x509.BasicConstraints).value.ca == True
     cert = Credential().subject("CN=end-entity").ca(False).generate().get_certificate()
-    assert (
-        cert.extensions.get_extension_for_class(x509.BasicConstraints).value.ca == False
-    )
+    assert cert.extensions.get_extension_for_class(x509.BasicConstraints).value.ca == False
 
 
 def test_intermediate_ca():
     root_ca = Credential().subject("CN=root-ca")
     intermediate_ca = Credential().subject("CN=intermediate-ca").issuer(root_ca).ca()
-    certs = (
-        Credential()
-        .subject("CN=joe")
-        .issuer(intermediate_ca)
-        .generate()
-        .get_certificates()
-    )
+    certs = Credential().subject("CN=joe").issuer(intermediate_ca).generate().get_certificates()
     assert len(certs) == 2
     assert certs[0].subject.rfc4514_string() == "CN=joe"
     assert certs[1].subject.rfc4514_string() == "CN=intermediate-ca"
@@ -240,6 +226,14 @@ def test_serial_number():
     assert cert1.serial_number != cert2.serial_number
 
 
+def test_crl_distribution_point_uri():
+    cert = Credential().subject("CN=joe").crl_distribution_point_uri("http://example.com/crl").get_certificate()
+    assert (
+        cert.extensions.get_extension_for_class(x509.CRLDistributionPoints).value[0].full_name[0].value
+        == "http://example.com/crl"
+    )
+
+
 def test_certificate_as_pem():
     cred = Credential().subject("CN=joe").generate()
     cert = cred.get_certificate()
@@ -260,13 +254,11 @@ def test_write_pem_files(tmp_path):
     wanted.write_certificates_as_pem(tmp_path / "joe.pem")
     wanted.write_private_key_as_pem(tmp_path / "joe-key.pem")
 
-    # load certificate and key from files
+    # Load certificate and key from files.
     got_cert = x509.load_pem_x509_certificate((tmp_path / "joe.pem").read_bytes())
-    got_key = serialization.load_pem_private_key(
-        (tmp_path / "joe-key.pem").read_bytes(), None
-    )
+    got_key = serialization.load_pem_private_key((tmp_path / "joe-key.pem").read_bytes(), None)
 
-    # check that the certificate and key match
+    # Check that the certificate and key match.
     assert got_cert == wanted.get_certificate()
     assert private_keys_equal(got_key, wanted.get_private_key())
 
@@ -276,13 +268,11 @@ def test_write_pem_files_with_password(tmp_path):
     wanted.write_certificates_as_pem(tmp_path / "joe.pem")
     wanted.write_private_key_as_pem(tmp_path / "joe-key.pem", password="secret")
 
-    # load certificate and key from files
+    # Load certificate and key from files.
     got_cert = x509.load_pem_x509_certificate((tmp_path / "joe.pem").read_bytes())
-    got_key = serialization.load_pem_private_key(
-        (tmp_path / "joe-key.pem").read_bytes(), b"secret"
-    )
+    got_key = serialization.load_pem_private_key((tmp_path / "joe-key.pem").read_bytes(), b"secret")
 
-    # check that the certificate and key match
+    # Check that the certificate and key match.
     assert got_cert == wanted.get_certificate()
     assert private_keys_equal(got_key, wanted.get_private_key())
 
@@ -291,10 +281,7 @@ def test_write_pem_files_with_password(tmp_path):
 
 
 def key_must_be(cred, key_type, key_size):
-    return (
-        isinstance(cred.get_private_key(), key_type)
-        and cred.get_private_key().key_size == key_size
-    )
+    return isinstance(cred.get_private_key(), key_type) and cred.get_private_key().key_size == key_size
 
 
 def private_keys_equal(key1, key2):

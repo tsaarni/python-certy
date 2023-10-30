@@ -74,22 +74,16 @@ def test_invalid_key_usage():
     with pytest.raises(ValueError):
         Credential().subject("CN=joe").key_usages("not a valid key usage")
     with pytest.raises(ValueError):
-        Credential().subject("CN=joe").key_usages(
-            KeyUsage.DIGITAL_SIGNATURE, "not a valid key usage"
-        )
+        Credential().subject("CN=joe").key_usages(KeyUsage.DIGITAL_SIGNATURE, "not a valid key usage")
 
 
 def test_invalid_ext_key_usage():
     with pytest.raises(ValueError):
         Credential().subject("CN=joe").ext_key_usages("not a valid extended key usage")
     with pytest.raises(ValueError):
-        Credential().subject("CN=joe").ext_key_usages(
-            ExtendedKeyUsage.SERVER_AUTH, "not a valid extended key usage"
-        )
+        Credential().subject("CN=joe").ext_key_usages(ExtendedKeyUsage.SERVER_AUTH, "not a valid extended key usage")
 
 
 def test_not_before_later_than_not_after():
     with pytest.raises(ValueError):
-        Credential().subject("CN=joe").not_before(datetime(2023, 1, 1)).not_after(
-            datetime(2022, 1, 1)
-        ).generate()
+        Credential().subject("CN=joe").not_before(datetime(2023, 1, 1)).not_after(datetime(2022, 1, 1)).generate()

@@ -1,3 +1,19 @@
+#
+# Copyright Certy Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 from __future__ import annotations
 
 import ipaddress
@@ -67,6 +83,7 @@ class Credential(object):
         key_usages: list[KeyUsage] | None = None,
         ext_key_usages: list[ExtendedKeyUsage] | None = None,
         serial: int | None = None,
+        crl_distribution_point_uri: str | None = None,
     ):
         self._subject = subject
         self._subject_alt_names = subject_alt_names
@@ -80,13 +97,14 @@ class Credential(object):
         self._key_usages = key_usages
         self._ext_key_usages = ext_key_usages
         self._serial = serial
+        self._crl_distribution_point_uri = crl_distribution_point_uri
 
         # Generated attributes
         self._private_key: rsa.RSAPrivateKey | ec.EllipticCurvePrivateKey | None = None
         self._certificate: x509.Certificate | None = None
 
     def __repr__(self):
-        return f"Credential(subject={self._subject!r}, key_type={self._key_type!r}, key_size={self._key_size!r}, expires={self._expires!r}, not_before={self._not_before!r}, not_after={self._not_after!r}, issuer={self._issuer!r}, is_ca={self._is_ca!r}, key_usages={self._key_usages!r}, ext_key_usages={self._ext_key_usages!r}, serial={self._serial!r})"
+        return f"Credential(subject={self._subject!r}, key_type={self._key_type!r}, key_size={self._key_size!r}, expires={self._expires!r}, not_before={self._not_before!r}, not_after={self._not_after!r}, issuer={self._issuer!r}, is_ca={self._is_ca!r}, key_usages={self._key_usages!r}, ext_key_usages={self._ext_key_usages!r}, serial={self._serial!r}, crl_distribution_point_uri={self._crl_distribution_point_uri!r})"
 
     # Setter methods
 
@@ -283,10 +301,23 @@ class Credential(object):
         """
         for ext_key_usage in ext_key_usages:
             if not isinstance(ext_key_usage, ExtendedKeyUsage):
-                raise ValueError(
-                    "Extended key usages must be a list of certy.ExtendedKeyUsage"
-                )
+                raise ValueError("Extended key usages must be a list of certy.ExtendedKeyUsage")
         self._ext_key_usages = ext_key_usages
+        return self
+
+    def crl_distribution_point_uri(self, uri: str) -> Credential:
+        """Set the CRL distribution point URI of this credential.
+
+        If not called, the CRL distribution point extension is not included in the certificate.
+
+        :param uri: The URI of the CRL distribution point.
+        :type uri: str
+        :return: This credential instance.
+        :rtype: Credential
+        """
+        if not isinstance(uri, str):
+            raise ValueError("URI must be a string")
+        self._crl_distribution_point_uri = uri
         return self
 
     # Builder methods
@@ -365,14 +396,10 @@ class Credential(object):
             .public_key(self._private_key.public_key())
         )
 
-        builder = builder.add_extension(
-            x509.BasicConstraints(ca=self._is_ca, path_length=None), critical=True
-        )
+        builder = builder.add_extension(x509.BasicConstraints(ca=self._is_ca, path_length=None), critical=True)
 
         if self._subject_alt_names is not None:
-            builder = builder.add_extension(
-                x509.SubjectAlternativeName(self._subject_alt_names), critical=False
-            )
+            builder = builder.add_extension(x509.SubjectAlternativeName(self._subject_alt_names), critical=False)
 
         if self._key_usages is not None:
             builder = builder.add_extension(
@@ -393,6 +420,21 @@ class Credential(object):
         if self._ext_key_usages is not None:
             builder = builder.add_extension(
                 x509.ExtendedKeyUsage([usage.value for usage in self._ext_key_usages]),
+                critical=False,
+            )
+
+        if self._crl_distribution_point_uri is not None:
+            builder = builder.add_extension(
+                x509.CRLDistributionPoints(
+                    [
+                        x509.DistributionPoint(
+                            full_name=[x509.UniformResourceIdentifier(self._crl_distribution_point_uri)],
+                            relative_name=None,
+                            crl_issuer=None,
+                            reasons=None,
+                        )
+                    ]
+                ),
                 critical=False,
             )
 
@@ -446,10 +488,7 @@ class Credential(object):
         :rtype: bytes
         """
         self._ensure_generated()
-        return b"".join(
-            cert.public_bytes(encoding=serialization.Encoding.PEM)
-            for cert in self._get_chain()
-        )
+        return b"".join(cert.public_bytes(encoding=serialization.Encoding.PEM) for cert in self._get_chain())
 
     def get_private_key(self) -> rsa.RSAPrivateKey | ec.EllipticCurvePrivateKey:
         """Get the private key.
@@ -473,13 +512,9 @@ class Credential(object):
         """
         self._ensure_generated()
 
-        encryption_algorithm: serialization.KeySerializationEncryption = (
-            serialization.NoEncryption()
-        )
+        encryption_algorithm: serialization.KeySerializationEncryption = serialization.NoEncryption()
         if password is not None:
-            encryption_algorithm = serialization.BestAvailableEncryption(
-                password.encode("utf-8")
-            )
+            encryption_algorithm = serialization.BestAvailableEncryption(password.encode("utf-8"))
 
         return self._private_key.private_bytes(  # type: ignore
             encoding=serialization.Encoding.PEM,
@@ -516,9 +551,7 @@ class Credential(object):
             f.write(self.get_certificates_as_pem())
         return self
 
-    def write_private_key_as_pem(
-        self, path: str, password: str | None = None
-    ) -> Credential:
+    def write_private_key_as_pem(self, path: str, password: str | None = None) -> Credential:
         """Write the private key in PKCS#8 PEM format to a file.
 
         If the private key has not been generated yet by calling :meth:`generate`, it is generated automatically.
@@ -553,9 +586,7 @@ class Credential(object):
 # Helper functions
 
 
-def _generate_new_key(
-    key_type: KeyType, key_size: int
-) -> rsa.RSAPrivateKey | ec.EllipticCurvePrivateKey:
+def _generate_new_key(key_type: KeyType, key_size: int) -> rsa.RSAPrivateKey | ec.EllipticCurvePrivateKey:
     if key_type == KeyType.RSA:
         return rsa.generate_private_key(public_exponent=65537, key_size=key_size)
     elif key_type == KeyType.EC:
@@ -585,15 +616,11 @@ def _as_general_names(names: list[str]) -> x509.GeneralNames:
         elif name.startswith("URI:"):
             general_names.append(x509.UniformResourceIdentifier(name[4:]))
         else:
-            raise ValueError(
-                f"Invalid name '{name}', must start with DNS:, IP: or URI:"
-            )
+            raise ValueError(f"Invalid name '{name}', must start with DNS:, IP: or URI:")
     return x509.GeneralNames(general_names)
 
 
-def _preferred_signature_hash_algorithm(
-    key_type: KeyType, key_size: int
-) -> hashes.HashAlgorithm:
+def _preferred_signature_hash_algorithm(key_type: KeyType, key_size: int) -> hashes.HashAlgorithm:
     if key_type == KeyType.RSA:
         return hashes.SHA256()
     elif key_type == KeyType.EC:

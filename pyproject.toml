@@ -18,3 +18,6 @@ keywords = ["testing", "certificates", "x509", "pki"]
 [project.urls]
 Documentation = "https://tsaarni.github.io/python-certy/"
 Source = "https://github.com/tsaarni/python-certy"
+
+[tool.black]
+line-length = 120
