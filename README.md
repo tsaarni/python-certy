@@ -4,7 +4,7 @@
 
 ## Description
 
-Certy provides a simple API for creating X509 certificates on demand when running unit tests.
+Certy provides a simple API for creating X509 certificates and certificate revocation lists on demand when running unit tests.
 No more storing test certificates and private keys in the repository!
 
 Python-certy is a version of similar tool for command line and Golang called [certyaml](https://github.com/tsaarni/certyaml) and [java-certy](https://github.com/tsaarni/java-certy/) for Java.
@@ -25,6 +25,7 @@ cred.write_private_key_as_pem("key.pem")
 ## Documentation
 
 The latest documentation is available [here](https://tsaarni.github.io/python-certy/).
+See also [tests](tests) for more examples.
 
 ## Installation
 
