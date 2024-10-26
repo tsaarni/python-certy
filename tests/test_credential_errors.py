@@ -38,6 +38,8 @@ def test_invalid_key_size():
         Credential().subject("CN=joe").key_type(KeyType.RSA).key_size(123)
     with pytest.raises(ValueError):
         Credential().subject("CN=joe").key_size("not a valid key size")
+    with pytest.raises(ValueError):
+        Credential().subject("CN=joe").key_type(KeyType.ED25519).key_size(123)
 
 
 def test_invalid_ca():
