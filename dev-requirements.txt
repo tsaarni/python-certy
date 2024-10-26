@@ -1,6 +1,7 @@
 black
 cryptography
 flake8
+flit
 pytest
 pytest-cov
 pytest-pythonpath
