@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-from datetime import datetime
+from datetime import datetime, timezone
 import pytest
 from cryptography import x509
 
@@ -43,14 +43,14 @@ def test_this_update(ca):
     crl = CertificateRevocationList().issuer(ca).this_update(datetime(2023, 10, 31, 9, 0))
     got = x509.load_der_x509_crl(crl.get_as_der())
     assert got is not None
-    assert got.last_update == datetime(2023, 10, 31, 9, 0)
+    assert got.last_update_utc == datetime(2023, 10, 31, 9, 0, tzinfo=timezone.utc)
 
 
 def test_next_update(ca):
-    crl = CertificateRevocationList().issuer(ca).next_update(datetime(2023, 10, 31, 9, 0))
+    crl = CertificateRevocationList().issuer(ca).this_update(datetime(2023, 10, 31, 9, 0)).next_update(datetime(2024, 10, 31, 9, 0))
     got = x509.load_der_x509_crl(crl.get_as_der())
     assert got is not None
-    assert got.next_update == datetime(2023, 10, 31, 9, 0)
+    assert got.next_update_utc == datetime(2024, 10, 31, 9, 0, tzinfo=timezone.utc)
 
 
 def test_issuer(ca):

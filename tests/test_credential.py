@@ -16,12 +16,12 @@
 
 import datetime
 import ipaddress
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import pytest
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric import ec, rsa
+from cryptography.hazmat.primitives.asymmetric import ec, rsa, ed25519
 from cryptography.x509.oid import ExtendedKeyUsageOID
 
 from certy import Credential, ExtendedKeyUsage, KeyType, KeyUsage
@@ -83,10 +83,16 @@ def test_rsa_key_sizes():
     assert key_must_be(cred, rsa.RSAPrivateKey, 4096)
 
 
+def test_ed25519_certificate():
+    # Ed25519 has fixed key size, so key_size() should not be used.
+    cred = Credential().subject("CN=test").key_type(KeyType.ED25519).generate()
+    isinstance(cred.get_private_key(), ed25519.Ed25519PrivateKey)
+
+
 def test_expires():
     cred = Credential().subject("CN=test").expires(timedelta(days=365)).generate()
     cert = cred.get_certificate()
-    assert cert.not_valid_after - cert.not_valid_before == timedelta(days=365)
+    assert cert.not_valid_after_utc - cert.not_valid_before_utc == timedelta(days=365)
 
 
 def test_key_usages():
@@ -198,8 +204,8 @@ def test_intermediate_ca():
 
 
 def test_not_before_and_not_after():
-    want_not_before = datetime(2023, 1, 1, 0, 0, 0)
-    want_not_after = datetime(2023, 1, 2, 0, 0, 0)
+    want_not_before = datetime(2023, 1, 1, 0, 0, 0, tzinfo=timezone.utc)
+    want_not_after = datetime(2023, 1, 2, 0, 0, 0, tzinfo=timezone.utc)
     cert = (
         Credential()
         .subject("CN=joe")
@@ -208,12 +214,12 @@ def test_not_before_and_not_after():
         .generate()
         .get_certificate()
     )
-    assert cert.not_valid_before == want_not_before
-    assert cert.not_valid_after == want_not_after
+    assert cert.not_valid_before_utc == want_not_before
+    assert cert.not_valid_after_utc == want_not_after
 
     expires = timedelta(days=365)
     cert = Credential().subject("CN=joe").expires(expires).generate().get_certificate()
-    assert cert.not_valid_after - cert.not_valid_before == expires
+    assert cert.not_valid_after_utc - cert.not_valid_before_utc == expires
 
 
 def test_serial_number():

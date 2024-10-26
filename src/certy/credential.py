@@ -17,12 +17,12 @@
 from __future__ import annotations
 
 import ipaddress
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import ec, rsa
+from cryptography.hazmat.primitives.asymmetric import ec, rsa, ed25519
 from cryptography.x509.oid import ExtendedKeyUsageOID
 
 
@@ -33,6 +33,8 @@ class KeyType(Enum):
     """Elliptic curve key (default)."""
     RSA = 2
     """RSA key."""
+    ED25519 = 3
+    """Ed25519 key."""
 
 
 class KeyUsage(Enum):
@@ -100,7 +102,7 @@ class Credential(object):
         self._crl_distribution_point_uri = crl_distribution_point_uri
 
         # Generated attributes
-        self._private_key: rsa.RSAPrivateKey | ec.EllipticCurvePrivateKey | None = None
+        self._private_key: rsa.RSAPrivateKey | ec.EllipticCurvePrivateKey | ed25519.Ed25519PrivateKey | None = None
         self._certificate: x509.Certificate | None = None
 
     def __repr__(self):
@@ -177,13 +179,13 @@ class Credential(object):
 
         If not called, the key type will be :const:`KeyType.EC`.
 
-        :param key_type: The key type of this credential. Must be :const:`KeyType.EC` or :const:`KeyType.RSA`.
+        :param key_type: The key type of this credential. Must be :const:`KeyType.EC`, :const:`KeyType.RSA` or :const:`KeyType.ED25519`.
         :type key_type: KeyType
         :return: This credential instance.
         :rtype: Credential
         """
         if not isinstance(key_type, KeyType):
-            raise ValueError("Key type must be certy.KeyType.EC or certy.KeyType.RSA")
+            raise ValueError("Key type must be certy.KeyType.EC, certy.KeyType.RSA or certy.KeyType.ED25519")
         self._key_type = key_type
         return self
 
@@ -191,10 +193,12 @@ class Credential(object):
         """Set the key size of this credential.
 
         If not called, the key size is ``256`` for :const:`KeyType.EC` and ``2048`` for :const:`KeyType.RSA`.
+        :const:`KeyType.ED25519` has a fixed key size of ``256``.
 
         :param key_size: The key size of this credential. Valid values depend on the key type.
             For EC keys, valid values are 256, 384, and 521.
             For RSA keys, valid values are 1024, 2048, and 4096.
+            For ED25519 keys, valid value is 256.
         :type key_size: int
         :return: This credential instance.
         :rtype: Credential
@@ -205,6 +209,8 @@ class Credential(object):
             raise ValueError("EC key size must be 256, 384, or 521")
         elif self._key_type == KeyType.RSA and key_size < 1024:
             raise ValueError("RSA key size must be at least 1024")
+        elif self._key_type == KeyType.ED25519 and key_size != 256:
+            raise ValueError("ED25519 key size must be 256")
         self._key_size = key_size
         return self
 
@@ -347,6 +353,8 @@ class Credential(object):
                 self._key_size = 256
             elif self._key_type == KeyType.RSA:
                 self._key_size = 2048
+            elif self._key_type == KeyType.ED25519:
+                self._key_size = 256
             else:
                 raise ValueError("Unknown key type")
 
@@ -372,7 +380,7 @@ class Credential(object):
         effective_not_before = self._not_before
         effective_not_after = self._not_after
         if effective_not_before is None:
-            effective_not_before = datetime.utcnow()
+            effective_not_before = datetime.now(timezone.utc)
         if effective_not_after is None and self._expires is not None:
             effective_not_after = effective_not_before + self._expires
         elif effective_not_after is not None:
@@ -586,7 +594,7 @@ class Credential(object):
 # Helper functions
 
 
-def _generate_new_key(key_type: KeyType, key_size: int) -> rsa.RSAPrivateKey | ec.EllipticCurvePrivateKey:
+def _generate_new_key(key_type: KeyType, key_size: int) -> rsa.RSAPrivateKey | ec.EllipticCurvePrivateKey | ed25519.Ed25519PrivateKey:
     if key_type == KeyType.RSA:
         return rsa.generate_private_key(public_exponent=65537, key_size=key_size)
     elif key_type == KeyType.EC:
@@ -601,6 +609,8 @@ def _generate_new_key(key_type: KeyType, key_size: int) -> rsa.RSAPrivateKey | e
             raise ValueError(f"Invalid key size: {key_size}")
 
         return ec.generate_private_key(curve)
+    elif key_type == KeyType.ED25519:
+        return ed25519.Ed25519PrivateKey.generate()
 
     raise ValueError(f"Invalid key type: {key_type}")
 
@@ -620,7 +630,7 @@ def _as_general_names(names: list[str]) -> x509.GeneralNames:
     return x509.GeneralNames(general_names)
 
 
-def _preferred_signature_hash_algorithm(key_type: KeyType, key_size: int) -> hashes.HashAlgorithm:
+def _preferred_signature_hash_algorithm(key_type: KeyType, key_size: int) -> hashes.HashAlgorithm | None:
     if key_type == KeyType.RSA:
         return hashes.SHA256()
     elif key_type == KeyType.EC:
@@ -632,5 +642,7 @@ def _preferred_signature_hash_algorithm(key_type: KeyType, key_size: int) -> has
             return hashes.SHA512()
         else:
             raise ValueError(f"Invalid key size: {key_size}")
+    elif key_type == KeyType.ED25519:
+        return None
     else:
         raise ValueError(f"Invalid key type: {key_type!r}")

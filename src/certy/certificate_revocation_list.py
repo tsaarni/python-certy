@@ -16,7 +16,7 @@
 
 from __future__ import annotations
 
-import datetime
+from datetime import datetime, timedelta, timezone
 
 from cryptography import x509
 from cryptography.hazmat.primitives import serialization
@@ -31,8 +31,8 @@ class CertificateRevocationList(object):
         self,
         issuer: Credential | None = None,
         revoked_certificates: list[Credential] | None = None,
-        this_update: datetime.datetime | None = None,
-        next_update: datetime.datetime | None = None,
+        this_update: datetime | None = None,
+        next_update: datetime | None = None,
     ):
         self._issuer = issuer
         self._revoked_certificates = revoked_certificates or []
@@ -62,26 +62,26 @@ class CertificateRevocationList(object):
         self._issuer = issuer
         return self
 
-    def this_update(self, this_update: datetime.datetime) -> CertificateRevocationList:
+    def this_update(self, this_update: datetime) -> CertificateRevocationList:
         """Set the ``thisUpdate`` field of the CRL.
 
         If not called, the ``thisUpdate`` field will be set to the current time.
 
         :param this_update: The ``thisUpdate`` field of the CRL.
-        :type this_update: datetime.datetime
+        :type this_update: datetime
         :return: self
         :rtype: CertificateRevocationList
         """
         self._this_update = this_update
         return self
 
-    def next_update(self, next_update: datetime.datetime) -> CertificateRevocationList:
+    def next_update(self, next_update: datetime) -> CertificateRevocationList:
         """Set the ``nextUpdate`` field of the CRL.
 
         If not called, the ``nextUpdate`` field will be set to ``thisUpdate`` plus 7 days.
 
         :param next_update: The nextUpdate field of the CRL.
-        :type next_update: datetime.datetime
+        :type next_update: datetime
         :return: self
         :rtype: CertificateRevocationList
         """
@@ -128,11 +128,11 @@ class CertificateRevocationList(object):
         # Ensure that the issuer has a key pair.
         self._issuer._ensure_generated()
 
-        effective_revocation_time = datetime.datetime.utcnow()
+        effective_revocation_time = datetime.now(timezone.utc)
         if self._this_update:
             effective_revocation_time = self._this_update
 
-        effective_expiry_time = effective_revocation_time + datetime.timedelta(days=7)
+        effective_expiry_time = effective_revocation_time + timedelta(days=7)
         if self._next_update:
             effective_expiry_time = self._next_update
 
