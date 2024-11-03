@@ -405,6 +405,15 @@ class Credential(object):
         )
 
         builder = builder.add_extension(x509.BasicConstraints(ca=self._is_ca, path_length=None), critical=True)
+        builder = builder.add_extension(
+            x509.SubjectKeyIdentifier.from_public_key(self._private_key.public_key()), critical=False
+        )
+
+        if self._issuer is not None:
+            builder = builder.add_extension(
+                x509.AuthorityKeyIdentifier.from_issuer_public_key(effective_issuer._private_key.public_key()),
+                critical=False,
+            )
 
         if self._subject_alt_names is not None:
             builder = builder.add_extension(x509.SubjectAlternativeName(self._subject_alt_names), critical=False)

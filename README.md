@@ -40,6 +40,7 @@ pip install certy
 Create virtual environment by running `python3 -m venv .venv`, then activate it `source .venv/bin/activate`.
 Install dependencies by running `pip install -r dev-requirements.txt`.
 Run tests with `pytest`.
+To build wheel, run `flit build` and check the generated wheel in `dist` directory.
 To find out coverage of tests, execute `coverage run -m pytest` and then `coverage html`.
 The coverage report is generated to `htmlcov/index.html`.
 
