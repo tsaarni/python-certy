@@ -16,7 +16,7 @@
 
 """Certy is a simple X509 certificate generator for unit and integration tests."""
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 
 from .credential import Credential, KeyType, KeyUsage, ExtendedKeyUsage
 from .certificate_revocation_list import CertificateRevocationList
