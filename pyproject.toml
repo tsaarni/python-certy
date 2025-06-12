@@ -10,7 +10,7 @@ license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: Apache Software License"]
 dynamic = ["version", "description"]
 dependencies = [
-    "cryptography"
+    "cryptography>=42.0.0"
 ]
 requires-python = ">=3.9"
 keywords = ["testing", "certificates", "x509", "pki"]
